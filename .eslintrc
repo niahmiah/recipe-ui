@@ -1,0 +1,19 @@
+{
+  "env": {
+    "browser": true,
+    "node": true,
+    "mocha": true,
+
+  },
+  "extends": "angular",
+  "rules": {
+    "quotes": [2, "single"],
+    "strict": [0, "global"],
+    "angular/window-service": [0]
+  },
+  "globals": {
+      "angular": true,
+      "cordova": true,
+      "StatusBar": true
+  }
+}

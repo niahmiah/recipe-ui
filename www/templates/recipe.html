@@ -1,0 +1,249 @@
+<ion-view>
+  <ion-nav-title>{{vm.recipe.name}}</ion-nav-title>
+  <ion-nav-buttons side="right">
+      <button class="button button-icon ion-ios-compose-outline">
+      </button>
+   </ion-nav-buttons>
+</ion-view>
+
+<ion-tabs class="tabs-stable tabs-icon-top">
+  <ion-tab title="Recipe" icon-on="ion-ios-paper" icon-off="ion-ios-paper-outline">
+    <ion-nav-view>
+      <ion-content has-header="true" padding="true">
+        <div class="list card">
+
+          <div class="item item-avatar item-stable">
+              <img src="http://www.gravatar.com/avatar/205e460b479e2e5b48aec07710c08d50?f=y&d=identicon">
+              <span class="serves right">
+                Serves: {{vm.recipe.servings}}
+                <p>
+                  <span ng-show="vm.recipe.time.prep">Prep: {{vm.recipe.time.prep}} min</span>
+                  <span ng-show="vm.recipe.time.prep && vm.recipe.time.cook">,</span>
+                  <span ng-show="vm.recipe.time.cook">Cook: {{vm.recipe.time.cook}} min</span>
+                </p>
+              </span>
+              <h2>{{vm.recipe.name}}</h2>
+              <p>Stephanie Patton</p>
+          </div>
+
+          <div class="item item-body">
+            <img ng-show="vm.recipe.picture" class="full-image" src="delorean.jpg">
+            <h2>Ingredients:</h2>
+            <ul>
+              <li ng-repeat="ingredientAmt in vm.recipe.ingredients">
+                <span>
+                  <span ng-show="ingredientAmt.qty > 0">{{ingredientAmt.qty}}</span>
+                  <span ng-show="ingredientAmt.fraction.numerator"> {{ingredientAmt.fraction.numerator}}/{{ingredientAmt.fraction.denominator}}</span>
+                  {{ingredientAmt.unit}} {{ingredientAmt.foodItem.name}}
+                </span>
+              </li>
+            </ul>
+            <h2 ng-show="vm.recipe.instructions">Instructions:</h2>
+            <p ng-show="vm.recipe.instructions">
+              {{vm.recipe.instructions}}
+            </p>
+          </div>
+          <div class="item item-light">
+              <span class="stars">
+                <i class="ion-ios-star"></i>
+                <i class="ion-ios-star"></i>
+                <i class="ion-ios-star"></i>
+                <i class="ion-ios-star-half"></i>
+                <i class="ion-ios-star-outline"></i>
+              </span>
+              <p>
+                <a href="#" class="subdued">5 Comments</a>
+              </p>
+          </div>
+
+        </div>
+      </ion-content>
+    </ion-nav-view>
+  </ion-tab>
+
+  <ion-tab title="Meal Planning" icon-on="ion-ios-clock" icon-off="ion-ios-clock-outline">
+    <ion-nav-view>
+      <ion-content has-header="true" padding="true">
+        <div class="card">
+          <ion-list>
+            <ion-item class="item-divider">Meal</ion-item>
+            <ion-toggle name="breakfast" ng-model="meal.breakfast" ng-value="'breakfast'" toggle-class="toggle-positive">Breakfast</ion-toggle>
+            <ion-toggle name="lunch" ng-model="meal.lunch" ng-value="'lunch'" toggle-class="toggle-positive">Lunch</ion-toggle>
+            <ion-toggle name="dinner" ng-model="meal.dinner" ng-value="'dinner'" toggle-class="toggle-positive">Dinner</ion-toggle>
+            <ion-toggle name="snack" ng-model="meal.snack" ng-value="'snack'" toggle-class="toggle-positive">Snack</ion-toggle>
+          </ion-list>
+        </div>
+        <div class="card">
+          <ion-list>
+            <ion-item class="item-divider">Type</ion-item>
+            <ion-radio name="type" ng-model="meal.type" ng-value="'entree'">Entrée</ion-radio>
+            <ion-radio name="type" ng-model="meal.type" ng-value="'side'">Side</ion-radio>
+            <ion-radio name="type" ng-model="meal.type" ng-value="'beverage'">Beverage</ion-radio>
+          </ion-list>
+        </div>
+      </ion-content>
+    </ion-nav-view>
+  </ion-tab>
+
+  <ion-tab title="Nutrition" icon-on="ion-ios-nutrition" icon-off="ion-ios-nutrition-outline">
+    <ion-nav-view>
+      <ion-content has-header="true" padding="true">
+        <div class="card">
+          <div class="padding">
+            <div class="underline-triple">
+                <h1>Nutrition Facts</h1>
+            </div>
+            <div class="row underline-single">
+              <div class="col col-100">
+                <strong>Amount Per Serving</strong>
+              </div>
+            </div>
+            <div class="row underline-single">
+              <div class="col col-50">
+                <strong>Calories</strong>
+              </div>
+              <div class="col col-50">
+                {{vm.recipe.nutrition.calories.total}}
+              </div>
+            </div>
+            <div class="row underline-double">
+              <div class="col col-50">
+                &nbsp; Calories from Fat
+              </div>
+              <div class="col col-50">
+                {{vm.recipe.nutrition.calories.fromFat}}
+              </div>
+            </div>
+
+            <div class="row underline-single">
+              <div class="col col-67">
+                &nbsp;
+              </div>
+              <div class="col col-33 right">
+                <strong>% Daily Value</strong>
+              </div>
+            </div>
+
+            <div class="row underline-single">
+              <div class="col col-67">
+                <strong>Total Fat</strong> {{vm.recipe.nutrition.fat.total}}g
+              </div>
+              <div class="col col-33 right">
+                <strong>%</strong>
+              </div>
+            </div>
+
+            <div class="row underline-single" ng-show="vm.recipe.nutrition.fat.saturated">
+              <div class="col col-67">
+                &nbsp; Saturated Fat {{vm.recipe.nutrition.fat.saturated}}g
+              </div>
+              <div class="col col-33 right">
+                <strong>%</strong>
+              </div>
+            </div>
+
+            <div class="row underline-single" ng-show="vm.recipe.nutrition.fat.trans">
+              <div class="col col-67">
+                &nbsp; Trans Fat {{vm.recipe.nutrition.fat.trans}}g
+              </div>
+              <div class="col col-33 right">
+                <strong></strong>
+              </div>
+            </div>
+
+            <div class="row underline-single" ng-show="vm.recipe.nutrition.fat.polyunsat">
+              <div class="col col-67">
+                &nbsp; Polyunsaturated Fat {{vm.recipe.nutrition.fat.polyunsat}}g
+              </div>
+              <div class="col col-33 right">
+                <strong></strong>
+              </div>
+            </div>
+
+            <div class="row underline-single" ng-show="vm.recipe.nutrition.fat.monounsat">
+              <div class="col col-67">
+                &nbsp; Monounsaturated Fat {{vm.recipe.nutrition.fat.monounsat}}g
+              </div>
+              <div class="col col-33 right">
+                <strong></strong>
+              </div>
+            </div>
+
+            <div class="row underline-single" ng-show="vm.recipe.nutrition.cholesterol">
+              <div class="col col-67">
+                <strong>Cholesterol</strong> {{vm.recipe.nutrition.cholesterol}}mg
+              </div>
+              <div class="col col-33 right">
+                <strong>%</strong>
+              </div>
+            </div>
+
+            <div class="row underline-single" ng-show="vm.recipe.nutrition.sodium">
+              <div class="col col-67">
+                <strong>Sodium</strong> {{vm.recipe.nutrition.sodium}}mg
+              </div>
+              <div class="col col-33 right">
+                <strong>%</strong>
+              </div>
+            </div>
+
+            <div class="row underline-single" ng-show="vm.recipe.nutrition.potassium">
+              <div class="col col-67">
+                <strong>Potassium</strong> {{vm.recipe.nutrition.potassium}}mg
+              </div>
+              <div class="col col-33 right">
+                <strong>%</strong>
+              </div>
+            </div>
+
+            <div class="row underline-single" ng-show="vm.recipe.nutrition.carbohydrates.total">
+              <div class="col col-67">
+                <strong>Total Carbohydrate</strong> {{vm.recipe.nutrition.carbohydrates.total}}g
+              </div>
+              <div class="col col-33 right">
+                <strong>%</strong>
+              </div>
+            </div>
+
+            <div class="row underline-single" ng-show="vm.recipe.nutrition.carbohydrates.fiber">
+              <div class="col col-67">
+                &nbsp; Dietary Fiber {{vm.recipe.nutrition.carbohydrates.fiber}}g
+              </div>
+              <div class="col col-33 right">
+                <strong>%</strong>
+              </div>
+            </div>
+
+            <div class="row underline-single" ng-show="vm.recipe.nutrition.carbohydrates.sugar">
+              <div class="col col-67">
+                &nbsp; Sugars {{vm.recipe.nutrition.carbohydrates.sugar}}g
+              </div>
+              <div class="col col-33 right">
+                <strong>%</strong>
+              </div>
+            </div>
+
+            <div class="row underline-triple" ng-show="vm.recipe.nutrition.protein">
+              <div class="col col-67">
+                <strong>Protein</strong> {{vm.recipe.nutrition.protein}}g
+              </div>
+              <div class="col col-33 right">
+                <strong>%</strong>
+              </div>
+            </div>
+
+            <div class="row underline-single" ng-show="vm.recipe.nutrition.vitamins.a">
+              <div class="col col-67">
+                Vitamin A
+              </div>
+              <div class="col col-33 right">
+                {{vm.recipe.nutrition.vitamins.a}}%
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </ion-content>
+    </ion-nav-view>
+  </ion-tab>
+</ion-tabs>

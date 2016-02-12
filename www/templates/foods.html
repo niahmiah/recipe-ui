@@ -1,0 +1,24 @@
+<ion-view view-title="Foods">
+  <div ng-show="vm.showSearch" class="bar bar-light bar-subheader item-input-inset">
+    <label class="item-input-wrapper">
+      <i class="icon ion-ios-search placeholder-icon"></i>
+      <input type="search" placeholder="Search" ng-model="vm.search" ng-model-options="{ updateOn: 'default', debounce: { 'default': 500 } }">
+    </label>
+    <!-- <button class="button button-clear">
+      Cancel
+    </button> -->
+  </div>
+
+  <ion-nav-buttons side="right">
+      <button class="button button-icon ion-ios-search" ng-click="vm.toggleSearch()">
+      </button>
+   </ion-nav-buttons>
+
+  <ion-content ng-class="{'has-subheader': vm.showSearch}">
+    <ion-list>
+      <ion-item collection-repeat="food in vm.foods" href="#/app/food/{{food._id}}">
+        {{food.name}}
+      </ion-item>
+    </ion-list>
+  </ion-content>
+</ion-view>

@@ -1,0 +1,44 @@
+/* Empty. Add your own CSS if you like */
+.item ul {
+  list-style-type: circle;
+  list-style-position: inside;
+}
+
+.item li {
+  color: #666;
+  font-size: 14px;
+  margin-bottom: 2px;
+}
+
+.serves, .stars {
+  float: right;
+}
+
+.stars i {
+  color: #fec82e;
+}
+
+.right {
+  text-align: right;
+}
+
+.underline-single {
+  border-bottom: solid 1px #333;
+}
+
+.underline-double {
+  border-bottom: solid 2px #333;
+}
+
+.underline-triple {
+  border-bottom: solid 3px #333;
+}
+
+.radio-icon {
+  color: #3d81f2
+}
+
+.item-radio input:checked + .radio-content .item-content {
+  /* style the item content when its checked */
+  background: #fff;
+}
