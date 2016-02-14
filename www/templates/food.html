@@ -1,188 +1,167 @@
 <ion-view>
   <ion-nav-title>{{vm.food.name}}</ion-nav-title>
   <ion-nav-buttons side="right">
-      <button class="button button-icon ion-ios-compose-outline">
-      </button>
+    <button class="button button-icon ion-ios-more" ng-click="vm.showActions.food()">
+    </button>
    </ion-nav-buttons>
+
+   <ion-content has-header="true">
+     <div class="card">
+       <div class="padding">
+         <div class="underline-triple">
+           <h1>Nutrition Facts</h1>
+           <p>{{vm.food.name}}</p>
+           <p>
+             Source: {{vm.food.source}}<br>
+             Serving Size: <span ng-show="vm.food.qty">{{vm.food.qty}}</span>
+             <span ng-show="vm.food.fraction.numerator">{{vm.food.fraction.numerator}}/{{vm.food.fraction.denominator}}</span>
+             <span ng-show="vm.food.unit">{{vm.food.unit}}</span>
+           </p>
+         </div>
+         <div class="row underline-single">
+           <div class="col col-100">
+             <strong>Amount Per Serving</strong>
+           </div>
+         </div>
+         <div class="row underline-single" ng-show="vm.food.nutrition.calories.total">
+           <div class="col col-100">
+             <strong>Calories</strong>
+             {{vm.food.nutrition.calories.total}}
+           </div>
+         </div>
+         <div class="row underline-double" ng-show="vm.food.nutrition.calories.fromFat">
+           <div class="col col-100">
+             &nbsp; Calories from Fat
+             {{vm.food.nutrition.calories.fromFat}}
+           </div>
+         </div>
+
+         <div class="row underline-single">
+           <div class="col col-67">
+             &nbsp;
+           </div>
+           <div class="col col-33 right">
+             <strong>% Daily Value</strong>
+           </div>
+         </div>
+
+         <div class="row underline-single" ng-show="vm.food.nutrition.fat.total">
+           <div class="col col-67">
+             <strong>Total Fat</strong> {{vm.food.nutrition.fat.total}}g
+           </div>
+           <div class="col col-33 right">
+             <strong>%</strong>
+           </div>
+         </div>
+
+         <div class="row underline-single" ng-show="vm.food.nutrition.fat.saturated">
+           <div class="col col-67">
+             &nbsp; Saturated Fat {{vm.food.nutrition.fat.saturated}}g
+           </div>
+           <div class="col col-33 right">
+             <strong>%</strong>
+           </div>
+         </div>
+
+         <div class="row underline-single" ng-show="vm.food.nutrition.fat.trans">
+           <div class="col col-67">
+             &nbsp; Trans Fat {{vm.food.nutrition.fat.trans}}g
+           </div>
+           <div class="col col-33 right">
+             <strong></strong>
+           </div>
+         </div>
+
+         <div class="row underline-single" ng-show="vm.food.nutrition.fat.polyunsat">
+           <div class="col col-67">
+             &nbsp; Polyunsaturated Fat {{vm.food.nutrition.fat.polyunsat}}g
+           </div>
+           <div class="col col-33 right">
+             <strong></strong>
+           </div>
+         </div>
+
+         <div class="row underline-single" ng-show="vm.food.nutrition.fat.monounsat">
+           <div class="col col-67">
+             &nbsp; Monounsaturated Fat {{vm.food.nutrition.fat.monounsat}}g
+           </div>
+           <div class="col col-33 right">
+             <strong></strong>
+           </div>
+         </div>
+
+         <div class="row underline-single" ng-show="vm.food.nutrition.cholesterol">
+           <div class="col col-67">
+             <strong>Cholesterol</strong> {{vm.food.nutrition.cholesterol}}mg
+           </div>
+           <div class="col col-33 right">
+             <strong>%</strong>
+           </div>
+         </div>
+
+         <div class="row underline-single" ng-show="vm.food.nutrition.sodium">
+           <div class="col col-67">
+             <strong>Sodium</strong> {{vm.food.nutrition.sodium}}mg
+           </div>
+           <div class="col col-33 right">
+             <strong>%</strong>
+           </div>
+         </div>
+
+         <div class="row underline-single" ng-show="vm.food.nutrition.potassium">
+           <div class="col col-67">
+             <strong>Potassium</strong> {{vm.food.nutrition.potassium}}mg
+           </div>
+           <div class="col col-33 right">
+             <strong>%</strong>
+           </div>
+         </div>
+
+         <div class="row underline-single" ng-show="vm.food.nutrition.carbohydrates.total">
+           <div class="col col-67">
+             <strong>Total Carbohydrate</strong> {{vm.food.nutrition.carbohydrates.total}}g
+           </div>
+           <div class="col col-33 right">
+             <strong>%</strong>
+           </div>
+         </div>
+
+         <div class="row underline-single" ng-show="vm.food.nutrition.carbohydrates.fiber">
+           <div class="col col-67">
+             &nbsp; Dietary Fiber {{vm.food.nutrition.carbohydrates.fiber}}g
+           </div>
+           <div class="col col-33 right">
+             <strong>%</strong>
+           </div>
+         </div>
+
+         <div class="row underline-single" ng-show="vm.food.nutrition.carbohydrates.sugar">
+           <div class="col col-67">
+             &nbsp; Sugars {{vm.food.nutrition.carbohydrates.sugar}}g
+           </div>
+           <div class="col col-33 right">
+             <strong>%</strong>
+           </div>
+         </div>
+
+         <div class="row underline-triple" ng-show="vm.food.nutrition.protein">
+           <div class="col col-67">
+             <strong>Protein</strong> {{vm.food.nutrition.protein}}g
+           </div>
+           <div class="col col-33 right">
+             <strong>%</strong>
+           </div>
+         </div>
+
+         <div class="row underline-single" ng-show="vm.food.nutrition.vitamins.a">
+           <div class="col col-67">
+             Vitamin A
+           </div>
+           <div class="col col-33 right">
+             {{vm.food.nutrition.vitamins.a}}%
+           </div>
+         </div>
+       </div>
+     </div>
+   </ion-content>
 </ion-view>
-
-<ion-tabs class="tabs-stable tabs-icon-top">
-  <ion-tab title="Description" icon-on="ion-ios-paper" icon-off="ion-ios-paper-outline">
-    <ion-nav-view>
-      <ion-content has-header="true" padding="true">
-        <div class="list card">
-          <div class="item">
-            Name: {{vm.food.name}}<br>
-            Source: {{vm.food.source}}<br>
-            Serving Size: <span ng-show="vm.food.qty">{{vm.food.qty}}</span>
-            <span ng-show="vm.food.fraction.numerator">{{vm.food.fraction.numerator}}/{{vm.food.fraction.denominator}}</span>
-            <span ng-show="vm.food.unit">{{vm.food.unit}}</span>
-          </div>
-
-        </div>
-      </ion-content>
-    </ion-nav-view>
-  </ion-tab>
-
-  <ion-tab title="Nutrition" icon-on="ion-ios-nutrition" icon-off="ion-ios-nutrition-outline">
-    <ion-nav-view>
-      <ion-content has-header="true" padding="true">
-        <div class="card">
-          <div class="padding">
-            <div class="underline-triple">
-                <h1>Nutrition Facts</h1>
-            </div>
-            <div class="row underline-single">
-              <div class="col col-100">
-                <strong>Amount Per Serving</strong>
-              </div>
-            </div>
-            <div class="row underline-single">
-              <div class="col col-50">
-                <strong>Calories</strong>
-              </div>
-              <div class="col col-50">
-                {{vm.food.nutrition.calories.total}}
-              </div>
-            </div>
-            <div class="row underline-double">
-              <div class="col col-50">
-                &nbsp; Calories from Fat
-              </div>
-              <div class="col col-50">
-                {{vm.food.nutrition.calories.fromFat}}
-              </div>
-            </div>
-
-            <div class="row underline-single">
-              <div class="col col-67">
-                &nbsp;
-              </div>
-              <div class="col col-33 right">
-                <strong>% Daily Value</strong>
-              </div>
-            </div>
-
-            <div class="row underline-single">
-              <div class="col col-67">
-                <strong>Total Fat</strong> {{vm.food.nutrition.fat.total}}g
-              </div>
-              <div class="col col-33 right">
-                <strong>%</strong>
-              </div>
-            </div>
-
-            <div class="row underline-single" ng-show="vm.food.nutrition.fat.saturated">
-              <div class="col col-67">
-                &nbsp; Saturated Fat {{vm.food.nutrition.fat.saturated}}g
-              </div>
-              <div class="col col-33 right">
-                <strong>%</strong>
-              </div>
-            </div>
-
-            <div class="row underline-single" ng-show="vm.food.nutrition.fat.trans">
-              <div class="col col-67">
-                &nbsp; Trans Fat {{vm.food.nutrition.fat.trans}}g
-              </div>
-              <div class="col col-33 right">
-                <strong></strong>
-              </div>
-            </div>
-
-            <div class="row underline-single" ng-show="vm.food.nutrition.fat.polyunsat">
-              <div class="col col-67">
-                &nbsp; Polyunsaturated Fat {{vm.food.nutrition.fat.polyunsat}}g
-              </div>
-              <div class="col col-33 right">
-                <strong></strong>
-              </div>
-            </div>
-
-            <div class="row underline-single" ng-show="vm.food.nutrition.fat.monounsat">
-              <div class="col col-67">
-                &nbsp; Monounsaturated Fat {{vm.food.nutrition.fat.monounsat}}g
-              </div>
-              <div class="col col-33 right">
-                <strong></strong>
-              </div>
-            </div>
-
-            <div class="row underline-single" ng-show="vm.food.nutrition.cholesterol">
-              <div class="col col-67">
-                <strong>Cholesterol</strong> {{vm.food.nutrition.cholesterol}}mg
-              </div>
-              <div class="col col-33 right">
-                <strong>%</strong>
-              </div>
-            </div>
-
-            <div class="row underline-single" ng-show="vm.food.nutrition.sodium">
-              <div class="col col-67">
-                <strong>Sodium</strong> {{vm.food.nutrition.sodium}}mg
-              </div>
-              <div class="col col-33 right">
-                <strong>%</strong>
-              </div>
-            </div>
-
-            <div class="row underline-single" ng-show="vm.food.nutrition.potassium">
-              <div class="col col-67">
-                <strong>Potassium</strong> {{vm.food.nutrition.potassium}}mg
-              </div>
-              <div class="col col-33 right">
-                <strong>%</strong>
-              </div>
-            </div>
-
-            <div class="row underline-single" ng-show="vm.food.nutrition.carbohydrates.total">
-              <div class="col col-67">
-                <strong>Total Carbohydrate</strong> {{vm.food.nutrition.carbohydrates.total}}g
-              </div>
-              <div class="col col-33 right">
-                <strong>%</strong>
-              </div>
-            </div>
-
-            <div class="row underline-single" ng-show="vm.food.nutrition.carbohydrates.fiber">
-              <div class="col col-67">
-                &nbsp; Dietary Fiber {{vm.food.nutrition.carbohydrates.fiber}}g
-              </div>
-              <div class="col col-33 right">
-                <strong>%</strong>
-              </div>
-            </div>
-
-            <div class="row underline-single" ng-show="vm.food.nutrition.carbohydrates.sugar">
-              <div class="col col-67">
-                &nbsp; Sugars {{vm.food.nutrition.carbohydrates.sugar}}g
-              </div>
-              <div class="col col-33 right">
-                <strong>%</strong>
-              </div>
-            </div>
-
-            <div class="row underline-triple" ng-show="vm.food.nutrition.protein">
-              <div class="col col-67">
-                <strong>Protein</strong> {{vm.food.nutrition.protein}}g
-              </div>
-              <div class="col col-33 right">
-                <strong>%</strong>
-              </div>
-            </div>
-
-            <div class="row underline-single" ng-show="vm.food.nutrition.vitamins.a">
-              <div class="col col-67">
-                Vitamin A
-              </div>
-              <div class="col col-33 right">
-                {{vm.food.nutrition.vitamins.a}}%
-              </div>
-            </div>
-
-          </div>
-        </div>
-      </ion-content>
-    </ion-nav-view>
-  </ion-tab>
-</ion-tabs>

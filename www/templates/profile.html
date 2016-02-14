@@ -1,0 +1,105 @@
+<ion-view view-title="User Profile">
+  <ion-content>
+    <div class="list card" ng-if="vm.authenticated">
+      <div class="item item-divider">
+        Public Info
+      </div>
+      <label class="item item-input">
+        <span class="input-label">First Name</span>
+        <input type="text" ng-model="vm.profile.firstName" ng-model-options="{ updateOn: 'default', debounce: {'default': 500} }" ng-change="vm.updateProfile()" placeholder="Jane">
+      </label>
+      <label class="item item-input">
+        <span class="input-label">Last Name</span>
+        <input type="text" ng-model="vm.profile.lastName" ng-model-options="{ updateOn: 'default', debounce: {'default': 500} }" ng-change="vm.updateProfile()" placeholder="Doe">
+      </label>
+      <div class="item item-divider">
+        Private Info
+      </div>
+      <label class="item item-input">
+        <span class="input-label">Email</span>
+        <input type="email" ng-model="vm.profile.email" ng-model-options="{ updateOn: 'default', debounce: {'default': 500} }" ng-change="vm.updateProfile()" placeholder="Email Address">
+      </label>
+      <label class="item item-input">
+        <span class="input-label">Weight* (lbs)</span>
+        <input type="number" min="1" max="999" ng-model="vm.profile.weight" ng-model-options="{ updateOn: 'default', debounce: {'default': 500} }" ng-change="vm.updateProfile()" placeholder="100">
+      </label>
+      <label class="item item-input">
+        <span class="input-label">Height* (in)</span>
+        <input type="number" min="1" max="100" ng-model="vm.profile.height" ng-model-options="{ updateOn: 'default', debounce: {'default': 500} }" ng-change="vm.updateProfile()" placeholder="60">
+      </label>
+      <label class="item item-input">
+        <span class="input-label">Birthdate*</span>
+        <!-- <input type="date" ng-model="vm.profile.birthdate"
+          ng-model-options="{ updateOn: 'default', debounce: {'default': 500} }"> -->
+        <ionic-datepicker idate="vm.profile.birthdate" input-obj="vm.datepickerObject">
+            <button class="button button-block button-positive"> {{ vm.profile.birthdate | date:'MMMM, dd yyyy' }}</button>
+        </ionic-datepicker>
+      </label>
+      <div class="item">
+        Activity Level*
+      </div>
+      <div class="item range"
+        ng-class="vm.rangeColor()">>
+        <i class="icon ion-ios-flame-outline"></i>
+        <input type="range" name="volume" min="1" max="4" ng-model="vm.profile.activityLevel" ng-model-options="{ updateOn: 'default', debounce: {'default': 500} }" ng-change="vm.updateProfile()">
+        <i class="icon ion-ios-flame"></i>
+      </div>
+      <div class="item">
+        <h2>Level {{vm.profile.activityLevel}} - {{vm.activityDescriptions[vm.profile.activityLevel - 1].short}}</h2>
+        <p>{{vm.activityDescriptions[vm.profile.activityLevel - 1].long}}</p>
+        <p>&nbsp;</p>
+        <p class="text-right">* Used to calculate Daily Recommended Values</p>
+      </div>
+    </div>
+
+    <form ng-submit="vm.registerUser()" ng-if="!vm.authenticated && vm.newNotExisting">
+      <div class="list card">
+        <div class="item item-divider">
+          New Users
+        </div>
+        <div class="item item-body item-text-wrap">
+          <p>Creating a profile allows you to:</p>
+             <ul>
+               <li>Save your recipes with nutritional info</li>
+               <li>Connect with friends and share recipes</li>
+               <li>Track calorie and nutrient consumption</li>
+             </ul>
+        </div>
+        <label class="item item-input">
+          <input type="email" ng-model="vm.loginData.email" placeholder="Email Address">
+        </label>
+        <label class="item item-input">
+          <input type="password" ng-model="vm.loginData.password" placeholder="Password">
+        </label>
+        <label class="item item-input">
+          <input type="password" ng-model="vm.loginData.password2" placeholder="Re-Type Password">
+        </label>
+        <div class="item text-center">
+          <button class="button button-balanced" type="submit">Sign Up</button>
+          <button class="button"
+          type="button" ng-click="vm.toggleNewOrExistingUser()">Existing User Log In</button>
+        </div>
+      </div>
+    </form>
+
+    <form ng-submit="vm.doLogin()" ng-if="!vm.authenticated && !vm.newNotExisting">
+      <div class="list card">
+        <div class="item item-divider">
+          Existing Users
+        </div>
+        <label class="item item-input">
+          <input type="email" ng-model="vm.loginData.email" placeholder="Email Address">
+        </label>
+        <label class="item item-input">
+          <input type="password" ng-model="vm.loginData.password" placeholder="Password">
+        </label>
+        <div class="item text-center">
+          <button class="button button-balanced" type="submit">Sign In</button>
+          <button class="button"
+          type="button" ng-click="vm.toggleNewOrExistingUser()">New User Sign Up</button>
+        </div>
+      </div>
+    </form>
+
+  </ion-content>
+</ion-view>

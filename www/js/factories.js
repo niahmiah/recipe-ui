@@ -11,3 +11,72 @@ angular.module('NutritionTracker.Factories', ['ngResource', 'NutritionTracker.Co
   .factory('User', function($resource, $serverAddress) {
     return $resource($serverAddress + '/user/:_id')
   })
+
+  .factory('Profile', function($resource, $serverAddress) {
+    return $resource($serverAddress + '/profile/:_id')
+  })
+
+  .factory('Auth', function($http, $serverAddress, $httpParamSerializer, $window, $log) {
+    return {
+      login: function(credentials, cb) {
+        var req = {
+          method: 'POST',
+          url: $serverAddress + '/oauth/token',
+          headers: {
+            Authorization: 'Basic '+window.btoa('webApp:sauce'),
+            'Content-type': 'application/x-www-form-urlencoded; charset=utf-8'
+          },
+          data: $httpParamSerializer({
+            'grant_type': 'password',
+            username: credentials.email,
+            password: credentials.password,
+            'client_id': 'webApp'
+          })
+        };
+        $http(req).then(function(data){
+            $log.debug(data);
+            $http.defaults.headers.common.Authorization = 'Bearer ' + data.data.access_token;
+            $window.localStorage['access_token'] = data.data.access_token;
+            var ex = new Date();
+            ex.setSeconds(ex.getSeconds() + data.data.expires_in);
+            $window.localStorage['token_expires'] = ex.toISOString();
+            $window.localStorage['refresh_token'] = data.data.refresh_token;
+            cb(null, data);
+        }).catch(cb);
+      },
+      getProfile: function() {
+        if($window.localStorage.access_token) {
+          var expiresString = $window.localStorage.token_expires;
+          if(expiresString) {
+            var expires = new Date(expiresString);
+            var now = new Date();
+            if(expires.valueOf() > now.valueOf()){
+              var profile = $window.localStorage.profile;
+              $http.defaults.headers.common.Authorization = 'Bearer ' + $window.localStorage['access_token'];
+              return angular.fromJson(profile);
+            }
+          }
+        }
+      },
+      logout: function() {
+        $window.localStorage.clear();
+      }
+    }
+  })
+
+  .factory('$localstorage', ['$window', function($window) {
+    return {
+      set: function(key, value) {
+        $window.localStorage[key] = value;
+      },
+      get: function(key, defaultValue) {
+        return $window.localStorage[key] || defaultValue;
+      },
+      setObject: function(key, value) {
+        $window.localStorage[key] = angular.toJson(value);
+      },
+      getObject: function(key) {
+        return angular.fromJson($window.localStorage[key] || '{}');
+      }
+    }
+  }]);

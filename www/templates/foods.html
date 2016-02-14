@@ -1,16 +1,20 @@
-<ion-view view-title="Foods">
+<ion-view view-title="Foods &amp; Beverages">
   <div ng-show="vm.showSearch" class="bar bar-light bar-subheader item-input-inset">
     <label class="item-input-wrapper">
       <i class="icon ion-ios-search placeholder-icon"></i>
-      <input type="search" placeholder="Search" ng-model="vm.search" ng-model-options="{ updateOn: 'default', debounce: { 'default': 500 } }">
+      <input type="search" placeholder="Search" ng-model="vm.query.search" ng-model-options="{ updateOn: 'default', debounce: { 'default': 500 } }">
     </label>
-    <!-- <button class="button button-clear">
-      Cancel
-    </button> -->
+    <div class="item-input item-select header-select">
+      <select>
+        <option>All</option>
+        <option selected>Following</option>
+        <option>Mine</option>
+      </select>
+    </div>
   </div>
 
   <ion-nav-buttons side="right">
-      <button class="button button-icon ion-ios-search" ng-click="vm.toggleSearch()">
+      <button class="button button-icon ion-ios-compose-outline" ng-click="vm.createNew()">
       </button>
    </ion-nav-buttons>
 
@@ -20,5 +24,9 @@
         {{food.name}}
       </ion-item>
     </ion-list>
+    <ion-infinite-scroll
+      on-infinite="vm.loadMore()"
+      distance="1%">
+    </ion-infinite-scroll>
   </ion-content>
 </ion-view>

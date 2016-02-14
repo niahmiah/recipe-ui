@@ -4,7 +4,7 @@
 // the name of this angular module is also set in a <body> attribute in index.html
 // the 2nd parameter is an array of 'requires'
 // 'starter.controllers' is found in controllers.js
-angular.module('NutritionTracker', ['ionic', 'ngResource', 'NutritionTracker.Config', 'NutritionTracker.Controllers', 'NutritionTracker.Factories'])
+angular.module('NutritionTracker', ['ionic', 'ionic-datepicker', 'ngResource', 'ngCookies', 'NutritionTracker.Config', 'NutritionTracker.Controllers', 'NutritionTracker.Factories'])
 
 .run(function($ionicPlatform) {
   $ionicPlatform.ready(function() {
@@ -21,7 +21,9 @@ angular.module('NutritionTracker', ['ionic', 'ngResource', 'NutritionTracker.Con
   });
 })
 
-.config(function($stateProvider, $urlRouterProvider) {
+.config(function($stateProvider, $urlRouterProvider, $ionicConfigProvider) {
+  $ionicConfigProvider.backButton.previousTitleText(false);
+  $ionicConfigProvider.backButton.text('').icon('ion-ios-arrow-back');
   $stateProvider
 
   .state('app', {
@@ -29,14 +31,16 @@ angular.module('NutritionTracker', ['ionic', 'ngResource', 'NutritionTracker.Con
     abstract: true,
     templateUrl: 'templates/menu.html',
     controller: 'App.Controller',
-    controllerAs: 'app'
+    controllerAs: 'vm'
   })
 
-  .state('app.login', {
-    url: '/login',
+  .state('app.profile', {
+    url: '/profile',
     views: {
       'menuContent': {
-        templateUrl: 'templates/login.html'
+        templateUrl: 'templates/profile.html',
+        controller: 'Profile.Controller',
+        controllerAs: 'vm'
       }
     }
   })
@@ -53,7 +57,7 @@ angular.module('NutritionTracker', ['ionic', 'ngResource', 'NutritionTracker.Con
   })
 
   .state('app.food', {
-    url: '/food/:foodId',
+    url: '/food/:id',
     views: {
       'menuContent': {
         templateUrl: 'templates/food.html',
@@ -75,7 +79,7 @@ angular.module('NutritionTracker', ['ionic', 'ngResource', 'NutritionTracker.Con
   })
 
   .state('app.recipe', {
-    url: '/recipe/:recipeId',
+    url: '/recipe/:id',
     views: {
       'menuContent': {
         templateUrl: 'templates/recipe.html',

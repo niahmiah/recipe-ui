@@ -1,4 +1,71 @@
 /* Empty. Add your own CSS if you like */
+@media screen and (min-width: 800px) {
+  .card {
+    max-width: 800px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  .list {
+    max-width: 470px;
+  }
+}
+
+a {
+  text-decoration: none;
+}
+
+.header-select {
+  width: 130px;
+  height: 40px;
+  margin-left: 10px;
+}
+
+.bar-subheader {
+  padding-right: 0px;
+}
+
+.bar-subheader select, .bar-subheader option {
+  min-width: 130px;
+}
+
+/*label.item-input-wrapper.item-input-wrapper-select {
+  width: 60%;
+}*/
+
+.truncate {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.bookmark {
+  float: right;
+}
+
+.button.button-hidden, .selected_date_full {
+  display: none;
+}
+
+.item-thumbnail-left .item-content {
+  padding-right: 10px;
+}
+
+.item .item-content {
+  padding-right: 10px;
+}
+
+.bar.bar-balanced, .button.button-balanced {
+  background-color: #476821;
+}
+
+.badge.badge-calm {
+  background-color: #264867
+}
+
+.clear {
+  padding-top: 0px;
+}
+
 .item ul {
   list-style-type: circle;
   list-style-position: inside;
@@ -10,7 +77,11 @@
   margin-bottom: 2px;
 }
 
-.serves, .stars {
+.side-menu .item, .list .item {
+  border: 0px;
+}
+
+.stars-right {
   float: right;
 }
 
