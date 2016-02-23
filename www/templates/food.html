@@ -1,18 +1,18 @@
 <ion-view>
   <ion-nav-title>{{vm.food.name}}</ion-nav-title>
   <ion-nav-buttons side="right">
-    <button class="button button-icon ion-ios-more" ng-click="vm.showActions.food()">
+    <button class="button button-icon button-clear button-positive ion-ios-more" ng-click="vm.showActions.food()" ng-if="vm.authenticated && vm.profile._id === vm.food.source._id">
     </button>
    </ion-nav-buttons>
 
    <ion-content has-header="true">
-     <div class="card">
+     <div class="card" ng-if="!vm.editMode">
        <div class="padding">
          <div class="underline-triple">
            <h1>Nutrition Facts</h1>
            <p>{{vm.food.name}}</p>
            <p>
-             Source: {{vm.food.source}}<br>
+             Source: {{vm.food.source.firstName}} {{vm.food.source.lastName}}<br>
              Serving Size: <span ng-show="vm.food.qty">{{vm.food.qty}}</span>
              <span ng-show="vm.food.fraction.numerator">{{vm.food.fraction.numerator}}/{{vm.food.fraction.denominator}}</span>
              <span ng-show="vm.food.unit">{{vm.food.unit}}</span>
@@ -23,7 +23,7 @@
              <strong>Amount Per Serving</strong>
            </div>
          </div>
-         <div class="row underline-single" ng-show="vm.food.nutrition.calories.total">
+         <div class="row underline-single">
            <div class="col col-100">
              <strong>Calories</strong>
              {{vm.food.nutrition.calories.total}}
@@ -41,7 +41,7 @@
              &nbsp;
            </div>
            <div class="col col-33 right">
-             <strong>% Daily Value</strong>
+             <strong>% D.V.</strong>
            </div>
          </div>
 
@@ -163,5 +163,156 @@
          </div>
        </div>
      </div>
+
+      <div ng-show="vm.editMode" class="card">
+        <div class="list">
+          <label class="item item-input">
+            <span class="input-label">Name</span>
+            <input type="text" id="name" ng-model="vm.food.name" ng-model-options="{ updateOn: 'default', debounce: {'default': 500} }" ng-change="vm.food.$save()"/>
+          </label>
+          <label class="item item-input">
+            <span class="input-label">Units</span>
+            <input type="number" ng-model="vm.food.qty" placeholder="# of units" ng-model-options="{ updateOn: 'default', debounce: {'default': 500} }" ng-change="vm.food.$save()"/>
+          </label>
+
+          <label class="item item-input">
+            <span class="input-label">Fraction</span>
+            <input type="text" ng-model="vm.food.fraction.string" placeholder="Example: 1/2" ng-change="vm.changeFraction()"/>
+          </label>
+
+          <ion-item class="item-input item-select">
+            <span class="item-label">Unit of measure</span>
+            <select ng-model="vm.food.unit" ng-model-options="{ updateOn: 'default', debounce: {'default': 500} }" ng-change="vm.food.$save()">
+              <option value="">(none)</option>
+              <option value="tsp">tsp</option>
+              <option value="tbs">tbs</option>
+              <option value="cup">cup</option>
+              <option value="oz">oz</option>
+              <option value="lb">lb</option>
+              <option value="fl">fl oz</option>
+            </select>
+          </ion-item>
+        </div>
+
+        <label class="item item-stable">
+            Nutrition Facts
+        </label>
+
+        <div class="list label-long">
+
+          <label class="item item-input">
+            <span class="item-label">Calories (total)</span>
+            <input type="number" min="0" max="9999" ng-model="vm.food.nutrition.calories.total" ng-model-options="{ updateOn: 'default', debounce: {'default': 500} }" ng-change="vm.food.$save()"/>
+          </label>
+
+          <label class="item item-input">
+            <span class="item-label">Calories from Fat</span>
+            <input type="number" min="0" max="9999" ng-model="vm.food.nutrition.calories.fromFat" ng-model-options="{ updateOn: 'default', debounce: {'default': 500} }" ng-change="vm.food.$save()"/>
+          </label>
+
+          <label class="item item-input">
+            <span class="item-label">Total Fat (g)</span>
+            <input type="number" min="0" max="9999" ng-model="vm.food.nutrition.fat.total" ng-model-options="{ updateOn: 'default', debounce: {'default': 500} }" ng-change="vm.food.$save()"/>
+          </label>
+
+          <label class="item item-input">
+            <span class="item-label">Saturated Fat (g)</span>
+            <input type="number" min="0" max="9999" ng-model="vm.food.nutrition.fat.saturated" ng-model-options="{ updateOn: 'default', debounce: {'default': 500} }" ng-change="vm.food.$save()"/>
+          </label>
+
+          <label class="item item-input">
+            <span class="item-label">Trans Fat (g)</span>
+            <input type="number" min="0" max="9999" ng-model="vm.food.nutrition.fat.trans" ng-model-options="{ updateOn: 'default', debounce: {'default': 500} }" ng-change="vm.food.$save()"/>
+          </label>
+
+          <label class="item item-input">
+            <span class="item-label">Polyunsat Fat (g)</span>
+            <input type="number" min="0" max="9999" ng-model="vm.food.nutrition.fat.polyunsat" ng-model-options="{ updateOn: 'default', debounce: {'default': 500} }" ng-change="vm.food.$save()"/>
+          </label>
+
+          <label class="item item-input">
+            <span class="item-label">Monounsat Fat (g)</span>
+            <input type="number" min="0" max="9999" ng-model="vm.food.nutrition.fat.monounsat" ng-model-options="{ updateOn: 'default', debounce: {'default': 500} }" ng-change="vm.food.$save()"/>
+          </label>
+
+          <label class="item item-input">
+            <span class="item-label">Cholesterol (mg)</span>
+            <input type="number" min="0" max="9999" ng-model="vm.food.nutrition.cholesterol" ng-model-options="{ updateOn: 'default', debounce: {'default': 500} }" ng-change="vm.food.$save()"/>
+          </label>
+
+          <label class="item item-input">
+            <span class="item-label">Sodium (mg)</span>
+            <input type="number" min="0" max="9999" ng-model="vm.food.nutrition.sodium" ng-model-options="{ updateOn: 'default', debounce: {'default': 500} }" ng-change="vm.food.$save()"/>
+          </label>
+
+          <label class="item item-input">
+            <span class="item-label">Potassium (mg)</span>
+            <input type="number" min="0" max="9999" ng-model="vm.food.nutrition.potassium" ng-model-options="{ updateOn: 'default', debounce: {'default': 500} }" ng-change="vm.food.$save()"/>
+          </label>
+
+          <label class="item item-input">
+            <span class="item-label">Carbs (total)</span>
+            <input type="number" min="0" max="9999" ng-model="vm.food.nutrition.carbohydrates.total" ng-model-options="{ updateOn: 'default', debounce: {'default': 500} }" ng-change="vm.food.$save()"/>
+          </label>
+
+          <label class="item item-input">
+            <span class="item-label">Carbs (fiber)</span>
+            <input type="number" min="0" max="9999" ng-model="vm.food.nutrition.carbohydrates.fiber" ng-model-options="{ updateOn: 'default', debounce: {'default': 500} }" ng-change="vm.food.$save()"/>
+          </label>
+
+          <label class="item item-input">
+            <span class="item-label">Carbs (sugar)</span>
+            <input type="number" min="0" max="9999" ng-model="vm.food.nutrition.carbohydrates.sugar" ng-model-options="{ updateOn: 'default', debounce: {'default': 500} }" ng-change="vm.food.$save()"/>
+          </label>
+
+          <label class="item item-input">
+            <span class="item-label">Protein</span>
+            <input type="number" min="0" max="9999" ng-model="vm.food.nutrition.protein" ng-model-options="{ updateOn: 'default', debounce: {'default': 500} }" ng-change="vm.food.$save()"/>
+          </label>
+        </div>
+
+        <label class="item item-stable">
+            Vitamins *
+        </label>
+
+        <div class="list label-long">
+
+          <label class="item item-input">
+            <span class="item-label">Vitamin A (%)</span>
+            <input type="number" min="0" max="9999" ng-model="vm.food.nutrition.vitamins.a" ng-model-options="{ updateOn: 'default', debounce: {'default': 500} }" ng-change="vm.food.$save()"/>
+          </label>
+
+          <label class="item item-input">
+            <span class="item-label">Vitamin C (%)</span>
+            <input type="number" min="0" max="9999" ng-model="vm.food.nutrition.vitamins.c" ng-model-options="{ updateOn: 'default', debounce: {'default': 500} }" ng-change="vm.food.$save()"/>
+          </label>
+
+          <label class="item item-input">
+            <span class="item-label">Vitamin D (%)</span>
+            <input type="number" min="0" max="9999" ng-model="vm.food.nutrition.vitamins.d" ng-model-options="{ updateOn: 'default', debounce: {'default': 500} }" ng-change="vm.food.$save()"/>
+          </label>
+
+          <label class="item item-input">
+            <span class="item-label">Vitamin E (%)</span>
+            <input type="number" min="0" max="9999" ng-model="vm.food.nutrition.vitamins.e" ng-model-options="{ updateOn: 'default', debounce: {'default': 500} }" ng-change="vm.food.$save()"/>
+          </label>
+
+          <label class="item item-input">
+            <span class="item-label">Calcium (%)</span>
+            <input type="number" min="0" max="9999" ng-model="vm.food.nutrition.vitamins.calcium" ng-model-options="{ updateOn: 'default', debounce: {'default': 500} }" ng-change="vm.food.$save()"/>
+          </label>
+
+          <label class="item item-input">
+            <span class="item-label">Iron (%)</span>
+            <input type="number" min="0" max="9999" ng-model="vm.food.nutrition.vitamins.iron" ng-model-options="{ updateOn: 'default', debounce: {'default': 500} }" ng-change="vm.food.$save()"/>
+          </label>
+
+          <label class="item">
+            <p>(* percentage based on 2000 calorie diet)</p>
+          </label>
+
+        </div>
+      </div>
+
    </ion-content>
 </ion-view>

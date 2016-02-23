@@ -1,93 +1,157 @@
 <ion-view>
   <ion-nav-title>{{vm.recipe.name}}</ion-nav-title>
   <ion-nav-buttons side="right">
-      <button class="button button-icon ion-ios-more" ng-click="vm.showActions.recipe()">
-      </button>
+      <button class="button button-icon button-clear button-positive ion-ios-more" ng-click="vm.showActions.recipe()" ng-if="vm.authenticated && vm.profile._id === vm.recipe.author._id"></button>
+      <!-- <button class="button button-icon button-clear button-small ion-heart" ng-class="{'button-assertive': vm.lovethis, 'button-stable': !vm.lovethis}" ng-click="vm.lovethis = !vm.lovethis" ng-if="vm.authenticated && vm.profile && vm.profile._id !== vm.recipe.author._id"></button> -->
    </ion-nav-buttons>
 </ion-view>
 
 <ion-tabs class="tabs-stable tabs-icon-top">
-  <ion-tab title="Recipe" icon-on="ion-ios-paper" icon-off="ion-ios-paper-outline">
+  <ion-tab title="Recipe" icon-on="ion-ios-paper positive" icon-off="ion-ios-paper-outline">
     <ion-nav-view>
       <ion-content has-header="true">
-        <div class="card">
-
-          <div class="item item-avatar item-stable">
-              <img src="http://www.gravatar.com/avatar/205e460b479e2e5b48aec07710c08d50?f=y&d=identicon" class="avatar">
-              <i ng-if="!friends" class="bookmark icon dark ion-person-add"></i>
-              <i ng-if="friends" class="bookmark icon dark ion-person-stalker"></i>
-              <h2><a href="#/app/user/123">Stephanie Patton</a></h2>
-              <p>October 15, 2015</p>
-          </div>
+        <div class="card" ng-if="!vm.editMode">
 
           <div class="item item-body">
             <img ng-if="vm.recipe.picture" class="full-image" ng-src="{{vm.recipe.picture}}">
-            <img ng-if="!vm.recipe.picture" class="full-image" src="/img/plates.jpg"/>
-            <p>{{vm.recipe.name}}</p>
-            <p>Ingredients:</p>
-            <ul>
-              <li ng-repeat="ingredientAmt in vm.recipe.ingredients">
-                <span>
-                  <span ng-show="ingredientAmt.qty > 0">{{ingredientAmt.qty}}</span>
-                  <span ng-show="ingredientAmt.fraction.numerator"> {{ingredientAmt.fraction.numerator}}/{{ingredientAmt.fraction.denominator}}</span>
-                  {{ingredientAmt.unit}} {{ingredientAmt.foodItem.name}}
-                </span>
-              </li>
-            </ul>
-            <p ng-show="vm.recipe.instructions">Instructions:</p>
-            <p ng-show="vm.recipe.instructions">
-              {{vm.recipe.instructions}}
-            </p>
+            <img ng-if="!vm.recipe.picture" class="full-image" src="img/plates.jpg"/>
+            <!-- <p>{{vm.recipe.name}}</p> -->
             <p>
               Serves: {{vm.recipe.servings}}<br>
               <span ng-show="vm.recipe.time.prep">Prep: {{vm.recipe.time.prep}} min</span>
               <span ng-show="vm.recipe.time.prep && vm.recipe.time.cook"><br></span>
               <span ng-show="vm.recipe.time.cook">Cook: {{vm.recipe.time.cook}} min</span>
             </p>
+            <p>Ingredients:</p>
+            <ul>
+              <li ng-repeat="ingredientAmt in vm.recipe.ingredients" class="truncate">
+                <span class="measurement">
+                  <span ng-show="ingredientAmt.qty > 0">{{ingredientAmt.qty}}</span>
+                  <span ng-show="ingredientAmt.fraction.numerator"><sup>{{ingredientAmt.fraction.numerator}}</sup>&frasl;<sub>{{ingredientAmt.fraction.denominator}}</sub></span>
+                  {{ingredientAmt.unit}}
+                </span>
+                {{ingredientAmt.foodItem.name}}
+              </li>
+            </ul>
+            <p ng-show="vm.recipe.instructions">Instructions:</p>
+            <p ng-show="vm.recipe.instructions">
+              <pre>{{vm.recipe.instructions}}</pre>
+            </p>
+
           </div>
-          <div class="item item-light">
-              <span class="stars stars-right">
-                <i class="ion-ios-star"></i>
-                <i class="ion-ios-star"></i>
-                <i class="ion-ios-star"></i>
-                <i class="ion-ios-star-half"></i>
-                <i class="ion-ios-star-outline"></i>
-              </span>
-              <p>
-                <a href="#" class="subdued">5 Comments</a>
-              </p>
-          </div>
+
+          <!-- <ion-item class="item item-avatar item-icon-right" href="#/app/user/{{vm.recipe.author._id}}/recipes">
+            <img ng-src="https:{{vm.recipe.author.gravatar}}" class="avatar">
+            <a href="#/app/user/{{vm.recipe.author._id}}">
+              <i class="bookmark icon ion-ios-arrow-right"></i>
+            </a>
+            <h2>See more by:</h2>
+            <p>{{vm.recipe.author.firstName}} {{vm.recipe.author.lastName}}</p>
+          </ion-item> -->
+
+          <!-- <div class="item item-light">
+            <span class="stars stars-right">
+              <i class="ion-ios-star"></i>
+              <i class="ion-ios-star"></i>
+              <i class="ion-ios-star"></i>
+              <i class="ion-ios-star-half"></i>
+              <i class="ion-ios-star-outline"></i>
+            </span>
+            <p>
+              <a href="#" class="subdued">5 Comments</a>
+            </p>
+          </div> -->
+
+
+
+        </div>
+
+        <div class="card" ng-if="vm.editMode">
+            <div class="list">
+              <label class="item item-input">
+                <span class="input-label">Name</span>
+                <input type="text" ng-model="vm.recipe.name" placeholder="recipe name" ng-model-options="{ updateOn: 'default', debounce: {'default': 500} }" ng-change="vm.recipe.$save()"/>
+              </label>
+              <label class="item item-input">
+                <span class="input-label">Servings</span>
+                <input type="number" ng-model="vm.recipe.servings" placeholder="# of servings" ng-model-options="{ updateOn: 'default', debounce: {'default': 500} }" ng-change="vm.recipe.$save()"/>
+              </label>
+              <label class="item item-input">
+                <span class="input-label">Prep Time</span>
+                <input type="number" ng-model="vm.recipe.time.prep" min="0" max="999" placeholder="# of minutes" ng-model-options="{ updateOn: 'default', debounce: {'default': 500} }" ng-change="vm.recipe.$save()"/>
+              </label>
+              <label class="item item-input">
+                <span class="input-label">Cook Time</span>
+                <input type="number" ng-model="vm.recipe.time.cook" min="0" max="999" placeholder="# of minutes" ng-model-options="{ updateOn: 'default', debounce: {'default': 500} }" ng-change="vm.recipe.$save()"/>
+              </label>
+            </div>
+
+            <ion-item ng-model="vm.canEdit" class="item-stable item-button-right" ng-show="vm.recipe.ingredients.length">
+              Ingredients
+              <button class="button button-clear button-positive" ng-click="vm.showAddIngredient()">
+                Add
+              </button>
+            </ion-item>
+
+            <!-- <ion-item class="item item-icon-left no-top" href="#" ng-click="vm.showAddIngredient()" ng-show="!vm.canEdit">
+              <i class="icon ion-ios-plus-empty positive"></i>
+              <span class="positive">Add Ingredient</span>
+            </ion-item> -->
+
+            <ion-list show-delete="vm.canEdit" show-reorder="vm.canEdit">
+              <ion-item ng-repeat="ingredientAmt in vm.recipe.ingredients" item="ingredientAmt">
+                <span ng-show="ingredientAmt.qty > 0">{{ingredientAmt.qty}}</span>
+                <span ng-show="ingredientAmt.fraction.numerator"><sup>{{ingredientAmt.fraction.numerator}}</sup>&frasl;<sub>{{ingredientAmt.fraction.denominator}}</sub></span>
+                {{ingredientAmt.unit}} {{ingredientAmt.foodItem.name}}
+                <ion-reorder-button class="ion-ios-drag" on-reorder="vm.moveIngredient(ingredientAmt, $fromIndex, $toIndex)">
+                </ion-reorder-button>
+                <ion-delete-button class="ion-ios-minus-empty" ng-click="vm.removeIngredient($index)">
+                </ion-delete-button>
+              </ion-item>
+            </ion-list>
+
+            <ion-toggle ng-model="vm.canEdit" toggle-class="toggle-assertive" ng-show="vm.recipe.ingredients.length" class="no-top">
+              <span class="assertive">Edit List</span>
+            </ion-toggle>
+
+            <label class="item item-stable">
+              Instructions
+            </label>
+            <label class="item">
+              <textarea ng-model="vm.recipe.instructions" placeholder="Add instructions here" ng-model-options="{ updateOn: 'default', debounce: {'default': 500} }" ng-change="vm.recipe.$save()"></textarea>
+            </label>
 
         </div>
       </ion-content>
     </ion-nav-view>
   </ion-tab>
 
-  <ion-tab title="Meal Planning" icon-on="ion-ios-clock" icon-off="ion-ios-clock-outline">
+  <ion-tab title="Meal Planning" icon-on="ion-ios-clock positive" icon-off="ion-ios-clock-outline" ng-if="vm.editMode">
     <ion-nav-view>
       <ion-content has-header="true" padding="true">
-        <div class="card">
+        <div class="card" ng-if="vm.editMode">
           <ion-list>
             <ion-item class="item-divider">Meal</ion-item>
-            <ion-toggle name="breakfast" ng-model="meal.breakfast" ng-value="'breakfast'" toggle-class="toggle-positive">Breakfast</ion-toggle>
-            <ion-toggle name="lunch" ng-model="meal.lunch" ng-value="'lunch'" toggle-class="toggle-positive">Lunch</ion-toggle>
-            <ion-toggle name="dinner" ng-model="meal.dinner" ng-value="'dinner'" toggle-class="toggle-positive">Dinner</ion-toggle>
-            <ion-toggle name="snack" ng-model="meal.snack" ng-value="'snack'" toggle-class="toggle-positive">Snack</ion-toggle>
+            <ion-toggle name="breakfast" ng-model="vm.mealplanning.breakfast" ng-change="vm.toggleMealPlanning()" toggle-class="toggle-positive">Breakfast</ion-toggle>
+            <ion-toggle name="lunch" ng-model="vm.mealplanning.lunch" ng-change="vm.toggleMealPlanning()" toggle-class="toggle-positive">Lunch</ion-toggle>
+            <ion-toggle name="dinner" ng-model="vm.mealplanning.dinner" ng-change="vm.toggleMealPlanning()" toggle-class="toggle-positive">Dinner</ion-toggle>
+            <ion-toggle name="snack" ng-model="vm.mealplanning.snack" ng-change="vm.toggleMealPlanning()" toggle-class="toggle-positive">Snack</ion-toggle>
           </ion-list>
         </div>
-        <div class="card">
+        <div class="card" ng-if="vm.editMode">
           <ion-list>
             <ion-item class="item-divider">Type</ion-item>
-            <ion-radio name="type" ng-model="meal.type" ng-value="'entree'">Entrée</ion-radio>
-            <ion-radio name="type" ng-model="meal.type" ng-value="'side'">Side</ion-radio>
-            <ion-radio name="type" ng-model="meal.type" ng-value="'beverage'">Beverage</ion-radio>
+            <ion-radio name="type" ng-model="vm.mealtype" ng-value="'entree'">Entrée</ion-radio>
+            <ion-radio name="type" ng-model="vm.mealtype" ng-value="'side'">Side</ion-radio>
+            <ion-radio name="type" ng-model="vm.mealtype" ng-value="'beverage'">Beverage</ion-radio>
+            <ion-radio name="type" ng-model="vm.mealtype" ng-value="'dessert'">Dessert</ion-radio>
           </ion-list>
         </div>
       </ion-content>
     </ion-nav-view>
   </ion-tab>
 
-  <ion-tab title="Nutrition" icon-on="ion-ios-nutrition" icon-off="ion-ios-nutrition-outline">
+  <ion-tab title="Nutrition" icon-on="ion-ios-nutrition positive" icon-off="ion-ios-nutrition-outline" ng-if="!vm.editMode">
     <ion-nav-view>
       <ion-content has-header="true" padding="true">
         <div class="card">

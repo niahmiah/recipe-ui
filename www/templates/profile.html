@@ -32,21 +32,20 @@
         <!-- <input type="date" ng-model="vm.profile.birthdate"
           ng-model-options="{ updateOn: 'default', debounce: {'default': 500} }"> -->
         <ionic-datepicker idate="vm.profile.birthdate" input-obj="vm.datepickerObject">
-            <button class="button button-block button-positive"> {{ vm.profile.birthdate | date:'MMMM, dd yyyy' }}</button>
+            <button class="button button-clear button-positive"> {{ vm.profile.birthdate | date:'MMMM, dd yyyy' }}</button>
         </ionic-datepicker>
       </label>
       <div class="item">
-        Activity Level*
-      </div>
-      <div class="item range"
-        ng-class="vm.rangeColor()">>
-        <i class="icon ion-ios-flame-outline"></i>
-        <input type="range" name="volume" min="1" max="4" ng-model="vm.profile.activityLevel" ng-model-options="{ updateOn: 'default', debounce: {'default': 500} }" ng-change="vm.updateProfile()">
-        <i class="icon ion-ios-flame"></i>
-      </div>
-      <div class="item">
-        <h2>Level {{vm.profile.activityLevel}} - {{vm.activityDescriptions[vm.profile.activityLevel - 1].short}}</h2>
-        <p>{{vm.activityDescriptions[vm.profile.activityLevel - 1].long}}</p>
+        <span class="item-title">Activity Level*</span>
+        <div class="range" ng-class="vm.rangeColor()">
+          <i class="icon ion-ios-flame-outline"></i>
+          <input type="range" name="volume" min="1" max="4" ng-model="vm.profile.activityLevel" ng-model-options="{ updateOn: 'default', debounce: {'default': 500} }" ng-change="vm.updateProfile()">
+          <i class="icon ion-ios-flame"></i>
+        </div>
+        <div class="activity-level-desc text-center">
+          <h2>Level {{vm.profile.activityLevel}} - {{vm.activityDescriptions[vm.profile.activityLevel - 1].short}}</h2>
+          <p>{{vm.activityDescriptions[vm.profile.activityLevel - 1].long}}</p>
+        </div>
         <p>&nbsp;</p>
         <p class="text-right">* Used to calculate Daily Recommended Values</p>
       </div>
@@ -60,9 +59,9 @@
         <div class="item item-body item-text-wrap">
           <p>Creating a profile allows you to:</p>
              <ul>
-               <li>Save your recipes with nutritional info</li>
-               <li>Connect with friends and share recipes</li>
-               <li>Track calorie and nutrient consumption</li>
+               <li>- Save your recipes with nutritional info</li>
+               <li>- Connect with friends and share recipes</li>
+               <li>- Track calorie and nutrient consumption</li>
              </ul>
         </div>
         <label class="item item-input">
@@ -75,8 +74,8 @@
           <input type="password" ng-model="vm.loginData.password2" placeholder="Re-Type Password">
         </label>
         <div class="item text-center">
-          <button class="button button-balanced" type="submit">Sign Up</button>
-          <button class="button"
+          <button class="button button-positive" type="submit">Sign Up</button><br>
+          <button class="button button-positive button-clear"
           type="button" ng-click="vm.toggleNewOrExistingUser()">Existing User Log In</button>
         </div>
       </div>
@@ -94,8 +93,8 @@
           <input type="password" ng-model="vm.loginData.password" placeholder="Password">
         </label>
         <div class="item text-center">
-          <button class="button button-balanced" type="submit">Sign In</button>
-          <button class="button"
+          <button class="button button-positive" type="submit">Sign In</button><br>
+          <button class="button button-positive button-clear"
           type="button" ng-click="vm.toggleNewOrExistingUser()">New User Sign Up</button>
         </div>
       </div>

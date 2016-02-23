@@ -1,20 +1,20 @@
 <ion-view view-title="Recipes">
-  <div ng-show="vm.showSearch" class="bar bar-light bar-subheader item-input-inset">
+  <div ng-show="vm.showSearch" class="bar bar-light bar-subheader item-input-inset" ng-class="{'bar-subheader-select': vm.authenticated}">
     <label class="item-input-wrapper">
       <i class="icon ion-ios-search placeholder-icon"></i>
       <input type="search" placeholder="Search" ng-model="vm.query.search" ng-model-options="{ updateOn: 'default', debounce: { 'default': 500 } }">
     </label>
-    <div class="item-input item-select header-select">
-      <select>
-        <option>All</option>
-        <option selected>Following</option>
-        <option>Mine</option>
+    <div class="item-input item-select header-select" ng-if="vm.authenticated">
+      <select ng-model="vm.query.filter">
+        <option value="">All</option>
+        <!-- <option value="following">Following</option> -->
+        <option value="{{vm.profile.id}}">Mine</option>
       </select>
     </div>
   </div>
 
   <ion-nav-buttons side="right">
-      <button class="button button-icon ion-ios-compose-outline" ng-click="vm.createNew()">
+      <button class="button button-icon button-clear button-positive ion-ios-compose-outline" ng-click="vm.createNew()" ng-if="vm.authenticated">
       </button>
    </ion-nav-buttons>
 
@@ -22,18 +22,17 @@
     <ion-list show-delete="vm.shouldShowDelete" show-reorder="vm.shouldShowReorder" can-swipe="vm.listCanSwipe">
       <ion-item class="item item-thumbnail-left" collection-repeat="recipe in vm.recipes" href="#/app/recipe/{{recipe._id}}">
         <img ng-if="recipe.thumb" ng-src="{{vm.recipe.picture}}">
-        <img ng-if="!recipe.thumb" src="/img/plates.jpg"/>
+        <img ng-if="!recipe.thumb" src="img/plates.jpg"/>
         <h2>{{recipe.name}}</h2>
-        <p>Stephanie Patton</p>
+        <p>{{recipe.author.firstName}} {{recipe.author.lastName}}</p>
         <p>{{recipe.nutrition.calories.total}} Cal, {{recipe.nutrition.carbohydrates.total - recipe.nutrition.carbohydrates.fiber}} Net Carbs, {{recipe.nutrition.protein}}g Protein</p>
-        <span class="stars">
+        <!-- <span class="stars">
           <i class="icon ion-ios-star"></i>
           <i class="icon ion-ios-star"></i>
           <i class="icon ion-ios-star"></i>
           <i class="icon ion-ios-star-half"></i>
           <i class="icon ion-ios-star-outline"></i>
-        </span>
-
+        </span> -->
       </ion-item>
     </ion-list>
     <ion-infinite-scroll

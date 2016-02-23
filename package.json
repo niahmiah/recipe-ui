@@ -1,7 +1,7 @@
 {
-  "name": "nutritiontracker",
+  "name": "recipesWithYou",
   "version": "1.1.1",
-  "description": "NutritionTracker: An Ionic project",
+  "description": "Recipes with You",
   "dependencies": {
     "gulp": "^3.5.6",
     "gulp-sass": "^2.0.4",

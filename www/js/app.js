@@ -4,7 +4,7 @@
 // the name of this angular module is also set in a <body> attribute in index.html
 // the 2nd parameter is an array of 'requires'
 // 'starter.controllers' is found in controllers.js
-angular.module('NutritionTracker', ['ionic', 'ionic-datepicker', 'ngResource', 'ngCookies', 'NutritionTracker.Config', 'NutritionTracker.Controllers', 'NutritionTracker.Factories'])
+angular.module('RecipesWithYou', ['ionic', 'ionic-datepicker', 'ngResource', 'RecipesWithYou.Config', 'RecipesWithYou.Controllers', 'RecipesWithYou.Factories'])
 
 .run(function($ionicPlatform) {
   $ionicPlatform.ready(function() {
@@ -80,6 +80,7 @@ angular.module('NutritionTracker', ['ionic', 'ionic-datepicker', 'ngResource', '
 
   .state('app.recipe', {
     url: '/recipe/:id',
+    cache: false,
     views: {
       'menuContent': {
         templateUrl: 'templates/recipe.html',

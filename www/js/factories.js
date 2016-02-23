@@ -1,4 +1,4 @@
-angular.module('NutritionTracker.Factories', ['ngResource', 'NutritionTracker.Config'])
+angular.module('RecipesWithYou.Factories', ['ngResource', 'RecipesWithYou.Config'])
 
   .factory('Recipe', function($resource, $serverAddress) {
     return $resource($serverAddress + '/recipe/:_id')

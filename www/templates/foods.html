@@ -1,27 +1,28 @@
 <ion-view view-title="Foods &amp; Beverages">
-  <div ng-show="vm.showSearch" class="bar bar-light bar-subheader item-input-inset">
+  <div ng-show="vm.showSearch" class="bar bar-light bar-subheader item-input-inset" ng-class="{'bar-subheader-select': vm.authenticated}">
     <label class="item-input-wrapper">
       <i class="icon ion-ios-search placeholder-icon"></i>
       <input type="search" placeholder="Search" ng-model="vm.query.search" ng-model-options="{ updateOn: 'default', debounce: { 'default': 500 } }">
     </label>
-    <div class="item-input item-select header-select">
-      <select>
-        <option>All</option>
-        <option selected>Following</option>
-        <option>Mine</option>
+    <div class="item-input item-select header-select" ng-if="vm.authenticated">
+      <select ng-model="vm.query.filter">
+        <option value="">All</option>
+        <!-- <option value="following">Following</option> -->
+        <option value="{{vm.profile.id}}">Mine</option>
       </select>
     </div>
   </div>
 
   <ion-nav-buttons side="right">
-      <button class="button button-icon ion-ios-compose-outline" ng-click="vm.createNew()">
+      <button class="button button-icon button-clear button-positive ion-ios-compose-outline" ng-click="vm.createNew()" ng-if="vm.authenticated">
       </button>
    </ion-nav-buttons>
 
   <ion-content ng-class="{'has-subheader': vm.showSearch}">
     <ion-list>
       <ion-item collection-repeat="food in vm.foods" href="#/app/food/{{food._id}}">
-        {{food.name}}
+        <h2 class="title">{{food.name}}</h2>
+        <p>Source: {{food.source.firstName}} {{food.source.lastName}}</p>
       </ion-item>
     </ion-list>
     <ion-infinite-scroll
