@@ -454,9 +454,17 @@ function getMany(vm, Model, modelName, Auth, $scope, $log) {
     filter: ''
   };
 
+  vm.lastQuery = {
+    response: {
+      length: vm.query.limit
+    }
+  }
+
   var doQuery = function(loadmore) {
     $log.debug('Running query', vm.query);
+    vm.lastQuery.query = vm.query;
     Model.query(vm.query, function(data) {
+      vm.lastQuery.response.length = data.length;
       if(loadmore) {
         data.forEach(function(record) {
           vm[modelName].push(record);
@@ -470,17 +478,26 @@ function getMany(vm, Model, modelName, Auth, $scope, $log) {
 
   $scope.$watch('vm.query.search', function() {
     vm.query.skip = 0;
+    vm.lastQuery.response.length = vm.query.limit;
     doQuery();
   });
 
   $scope.$watch('vm.query.filter', function() {
     vm.query.skip = 0;
+    vm.lastQuery.response.length = vm.query.limit;
     doQuery();
   });
 
   vm.loadMore = function() {
     vm.query.skip = vm.query.skip + vm.query.limit;
     doQuery(true);
+  }
+
+  vm.moreDataCanBeLoaded = function() {
+    if(vm.lastQuery.response.length === vm.query.limit) {
+      return true;
+    }
+    return false;
   }
 }
 
