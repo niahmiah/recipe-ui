@@ -25,7 +25,7 @@
         <img ng-if="!recipe.thumb" src="img/plates.jpg"/>
         <h2>{{recipe.name}}</h2>
         <p>{{recipe.author.firstName}} {{recipe.author.lastName}}</p>
-        <p>{{recipe.nutrition.calories.total}} Cal, {{recipe.nutrition.carbohydrates.total - recipe.nutrition.carbohydrates.fiber}} Net Carb, {{recipe.nutrition.protein}}g Protein</p>
+        <p>{{recipe.nutrition.calories.total | number: 0}} Cal, {{recipe.nutrition.carbohydrates.total - recipe.nutrition.carbohydrates.fiber | number: 0}} Net Carb, {{recipe.nutrition.protein | number: 0}}g Protein</p>
         <!-- <span class="stars">
           <i class="icon ion-ios-star"></i>
           <i class="icon ion-ios-star"></i>
