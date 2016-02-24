@@ -11,15 +11,15 @@
     margin-top: 15px;
     margin-left: auto;
     margin-right: auto;
-    margin-bottom: 15px;
+    margin-bottom: 0px;
   }
   .list {
     max-width: 470px;
   }
-
   .card .list {
     max-width: 100%;
   }
+
 }
 
 a {
@@ -36,6 +36,10 @@ pre {
   font-size: 85%;
   color: #666;
   line-height: 24px;
+}
+
+.tag {
+  text-transform: capitalize;
 }
 
 .label-long .item-label {
@@ -172,4 +176,8 @@ pre {
 
 .no-top {
   border-top: none;
+}
+
+.no-padding {
+  padding: 0px;
 }

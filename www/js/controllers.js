@@ -182,9 +182,10 @@ angular.module('RecipesWithYou.Controllers', [])
   vm.mealplanning = {};
   vm.postLoad = function() {
     vm.recipe.mealTypes.forEach(function(type) {
-      vm.mealplanning[type] = true;
       if(type !== 'breakfast' && type !== 'lunch' && type !== 'dinner' && type !== 'snack') {
         vm.mealtype = type;
+      } else {
+        vm.mealplanning[type] = true;
       }
     });
     $log.debug('post load', vm.mealplanning);
@@ -453,7 +454,8 @@ function getMany(vm, Model, modelName, Auth, $scope, $log) {
     skip: 0,
     limit: 20,
     search: '',
-    filter: ''
+    filter: '',
+    type: ''
   };
 
   vm.lastQuery = {
@@ -493,6 +495,15 @@ function getMany(vm, Model, modelName, Auth, $scope, $log) {
   });
 
   $scope.$watch('vm.query.filter', function() {
+    vm.query.skip = 0;
+    vm.lastQuery = {
+      query: null,
+      response: null
+    }
+    doQuery();
+  });
+
+  $scope.$watch('vm.query.type', function() {
     vm.query.skip = 0;
     vm.lastQuery = {
       query: null,

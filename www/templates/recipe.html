@@ -22,6 +22,7 @@
               <span ng-show="vm.recipe.time.prep && vm.recipe.time.cook"><br></span>
               <span ng-show="vm.recipe.time.cook">Cook: {{vm.recipe.time.cook}} min</span>
             </p>
+
             <p>Ingredients:</p>
             <ul>
               <li ng-repeat="ingredientAmt in vm.recipe.ingredients" class="truncate">
@@ -37,7 +38,10 @@
             <p ng-show="vm.recipe.instructions">
               <pre>{{vm.recipe.instructions}}</pre>
             </p>
-
+            <p>Type(s):
+            <span class="tag" ng-repeat="mealType in vm.recipe.mealTypes">
+              {{mealType}}<span ng-show="!$last">,</span>
+            </span></p>
           </div>
 
           <!-- <ion-item class="item item-avatar item-icon-right" href="#/app/user/{{vm.recipe.author._id}}/recipes">
@@ -61,8 +65,6 @@
               <a href="#" class="subdued">5 Comments</a>
             </p>
           </div> -->
-
-
 
         </div>
 
