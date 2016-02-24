@@ -21,6 +21,7 @@
               <span ng-show="vm.recipe.time.prep">Prep: {{vm.recipe.time.prep}} min</span>
               <span ng-show="vm.recipe.time.prep && vm.recipe.time.cook"><br></span>
               <span ng-show="vm.recipe.time.cook">Cook: {{vm.recipe.time.cook}} min</span>
+              <span ng-show="vm.recipe.time.prep || vm.recipe.time.cook"><br></span>
               Meal Planning:
             <span class="tag" ng-repeat="mealType in vm.recipe.mealTypes">
               {{mealType}}<span ng-show="!$last">,</span>
