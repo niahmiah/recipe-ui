@@ -399,9 +399,6 @@ function getSingle(vm, Model, modelName, Auth, $stateParams, $log, $ionicActionS
     var buttons = [
      { text: vm.editButtonText }
     ]
-    // if(modelName === 'recipe') {
-    //   buttons.push({text: 'Change Photo'})
-    // }
     $ionicActionSheet.show({
       buttons: buttons,
       destructiveText: 'Delete',
@@ -444,6 +441,7 @@ function getSingle(vm, Model, modelName, Auth, $stateParams, $log, $ionicActionS
 function getMany(vm, Model, modelName, Auth, $scope, $log) {
   vm[modelName] = [];
   vm.showSearch = true;
+  vm.queryIsRunning = false;
 
   var profile = Auth.getProfile();
   if(profile) {
@@ -459,49 +457,61 @@ function getMany(vm, Model, modelName, Auth, $scope, $log) {
   };
 
   vm.lastQuery = {
-    response: {
-      length: vm.query.limit
-    }
+    query: null,
+    response: null
   }
 
   var doQuery = function(loadmore) {
-    $log.debug('Running query', vm.query);
-    vm.lastQuery.query = vm.query;
-    Model.query(vm.query, function(data) {
-      vm.lastQuery.response.length = data.length;
-      if(loadmore) {
-        data.forEach(function(record) {
-          vm[modelName].push(record);
-        });
+    if(!vm.queryIsRunning){
+      $log.debug('Running query', vm.query);
+      vm.queryIsRunning = true;
+      Model.query(vm.query, function(data) {
+        vm.lastQuery.query = vm.query;
+        vm.lastQuery.response = data;
+        if(loadmore) {
+          data.forEach(function(record) {
+            vm[modelName].push(record);
+          });
+        } else {
+          vm[modelName] = data;
+        }
         $scope.$broadcast('scroll.infiniteScrollComplete');
-      } else {
-        vm[modelName] = data;
-      }
-    });
+        vm.queryIsRunning = false;;
+      });
+    }else{
+      $log.debug('NOT Running query', vm.query);
+    }
   }
 
   $scope.$watch('vm.query.search', function() {
     vm.query.skip = 0;
-    vm.lastQuery.response.length = vm.query.limit;
+    vm.lastQuery = {
+      query: null,
+      response: null
+    }
     doQuery();
   });
 
   $scope.$watch('vm.query.filter', function() {
     vm.query.skip = 0;
-    vm.lastQuery.response.length = vm.query.limit;
+    vm.lastQuery = {
+      query: null,
+      response: null
+    }
     doQuery();
   });
 
   vm.loadMore = function() {
-    vm.query.skip = vm.query.skip + vm.query.limit;
+    vm.query.skip = vm[modelName].length;
     doQuery(true);
   }
 
   vm.moreDataCanBeLoaded = function() {
-    if(vm.lastQuery.response.length === vm.query.limit) {
-      return true;
+    if(vm.lastQuery.response && vm.lastQuery.response.length < vm.lastQuery.query.limit) {
+      $log.debug('More data cannot be loaded', vm.lastQuery);
+      return false;
     }
-    return false;
+    return true;
   }
 }
 

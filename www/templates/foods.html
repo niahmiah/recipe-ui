@@ -6,9 +6,9 @@
     </label>
     <div class="item-input item-select header-select" ng-if="vm.authenticated">
       <select ng-model="vm.query.filter">
-        <option value="">All</option>
+        <option value="">All Sources</option>
         <!-- <option value="following">Following</option> -->
-        <option value="{{vm.profile.id}}">Mine</option>
+        <option value="{{vm.profile.id}}">My Items</option>
       </select>
     </div>
   </div>

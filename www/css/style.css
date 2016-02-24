@@ -48,9 +48,19 @@ pre {
 }
 
 .header-select {
-  width: 105px;
+  width: 115px;
   height: 40px;
   margin-left: 10px;
+}
+
+.footer-select {
+  width: 100%;
+  height: 40px;
+}
+
+.bar-footer.item-input-inset {
+  padding-left: 0px;
+  padding-right: 0px;
 }
 
 .bar-subheader-select {
@@ -58,7 +68,7 @@ pre {
 }
 
 .bar-subheader select, .bar-subheader option {
-  min-width: 105px;
+  min-width: 115px;
   padding-left: 5px;
   margin-left: 5px;
   padding-right: 37px;
