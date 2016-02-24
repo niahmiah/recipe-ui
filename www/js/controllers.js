@@ -242,7 +242,8 @@ angular.module('RecipesWithYou.Controllers', [])
         numerator: vm.addToRecipe.fraction.numerator || 0,
         denominator:  vm.addToRecipe.fraction.denominator || 2
       },
-      qty: vm.addToRecipe.qty
+      qty: vm.addToRecipe.qty,
+      unit: vm.addToRecipe.unit
     }
     $log.debug('Adding ingredient', recipeFormattedIngredient);
     vm.recipe.ingredients.push(recipeFormattedIngredient);
@@ -321,7 +322,7 @@ angular.module('RecipesWithYou.Controllers', [])
       // console.log('measure:', ingr.foodItem.name, ingrMsrString, recipeIngrMsrString);
       // console.log('vals in millis', ingrSrv, recipeInrgSrv);
       if(ingrSrvType !== recipeIngrSrvType){
-        alert('Invalid measurement conversion for: ' + ingr.foodItem.name + '\n\nNutritional information will not be correct for this recipe.');
+        alert('Invalid measurement conversion for: ' + ingr.foodItem.name + '\n\nNutritional information will not be correct for this recipe.\n\n' + ingrSrvType + '!==' + recipeIngrSrvType);
         servingMultiplier = 0;
       }else{
         servingMultiplier = (recipeInrgSrv / ingrSrv) / vm.recipe.servings;

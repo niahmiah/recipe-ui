@@ -112,9 +112,12 @@
               </ion-item>
             </ion-list>
 
-            <ion-toggle ng-model="vm.canEdit" toggle-class="toggle-assertive" ng-show="vm.recipe.ingredients.length" class="no-top">
-              <span class="assertive">Edit List</span>
-            </ion-toggle>
+            <div class="item no-top item-button-right" ng-show="vm.recipe.ingredients.length">
+              &nbsp;
+              <button class="button button-clear" ng-click="vm.canEdit = !vm.canEdit" ng-class="{'button-assertive': !vm.canEdit, 'button-stable': vm.canEdit}">
+                Edit
+              </button>
+            </div>
 
             <label class="item item-stable">
               Instructions

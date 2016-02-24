@@ -25,7 +25,7 @@
     <ion-content class="has-subheader">
       <div class="list" ng-if="vm.newIngredient">
         <ion-item>
-          <h2>Source: {{vm.newIngredient.source}}</h2>
+          <h2>Source: {{vm.newIngredient.source.firstName}} {{vm.newIngredient.source.lastName}}</h2>
           <p>
             Serving Size:
             <span class="integer" ng-show="vm.newIngredient.qty">{{vm.newIngredient.qty}}</span>
