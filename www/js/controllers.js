@@ -396,10 +396,14 @@ function getSingle(vm, Model, modelName, Auth, $stateParams, $log, $ionicActionS
 
   vm.showActions = {};
   vm.showActions[modelName] = function() {
+    var buttons = [
+     { text: vm.editButtonText }
+    ]
+    // if(modelName === 'recipe') {
+    //   buttons.push({text: 'Change Photo'})
+    // }
     $ionicActionSheet.show({
-      buttons: [
-       { text: vm.editButtonText }
-      ],
+      buttons: buttons,
       destructiveText: 'Delete',
       titleText: '',
       cancelText: 'Cancel',
