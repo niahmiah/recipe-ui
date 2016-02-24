@@ -37,25 +37,14 @@ angular.module('RecipesWithYou.Factories', ['ngResource', 'RecipesWithYou.Config
             $log.debug(data);
             $http.defaults.headers.common.Authorization = 'Bearer ' + data.data.access_token;
             $window.localStorage['access_token'] = data.data.access_token;
-            var ex = new Date();
-            ex.setSeconds(ex.getSeconds() + data.data.expires_in);
-            $window.localStorage['token_expires'] = ex.toISOString();
-            $window.localStorage['refresh_token'] = data.data.refresh_token;
             cb(null, data);
         }).catch(cb);
       },
       getProfile: function() {
         if($window.localStorage.access_token) {
-          var expiresString = $window.localStorage.token_expires;
-          if(expiresString) {
-            var expires = new Date(expiresString);
-            var now = new Date();
-            if(expires.valueOf() > now.valueOf()){
-              var profile = $window.localStorage.profile;
-              $http.defaults.headers.common.Authorization = 'Bearer ' + $window.localStorage['access_token'];
-              return angular.fromJson(profile);
-            }
-          }
+          var profile = $window.localStorage.profile;
+          $http.defaults.headers.common.Authorization = 'Bearer ' + $window.localStorage['access_token'];
+          return angular.fromJson(profile);
         }
       },
       logout: function() {
