@@ -319,8 +319,8 @@ angular.module('RecipesWithYou.Controllers', [])
       }
 
 
-      // console.log('measure:', ingr.foodItem.name, ingrMsrString, recipeIngrMsrString);
-      // console.log('vals in millis', ingrSrv, recipeInrgSrv);
+      $log.debug('measure:', ingr.foodItem.name, ingrMsrString, recipeIngrMsrString);
+      $log.debug('vals in millis', ingrSrv, recipeInrgSrv);
       if(ingrSrvType !== recipeIngrSrvType){
         alert('Invalid measurement conversion for: ' + ingr.foodItem.name + '\n\nNutritional information will not be correct for this recipe.\n\n' + ingrSrvType + '!==' + recipeIngrSrvType);
         servingMultiplier = 0;
@@ -328,13 +328,13 @@ angular.module('RecipesWithYou.Controllers', [])
         servingMultiplier = (recipeInrgSrv / ingrSrv) / vm.recipe.servings;
       }
 
-      // console.log('multiplier', servingMultiplier);
-      // console.log('before', ingr.foodItem.nutrition);
+      $log.debug('multiplier', servingMultiplier);
+      $log.debug('before', ingr.foodItem.nutrition);
 
       var ingrfoodItemNutrition = multiplyObject(ingr.foodItem.nutrition, servingMultiplier);
-      // console.log('after', ingr.foodItem.nutrition);
+      $log.debug('after', ingr.foodItem.nutrition);
       //divide by servings #
-      // console.log('Adding values from', ingr.foodItem.nutrition);
+      $log.debug('Adding values from', ingr.foodItem.nutrition);
       nutritionInfo = addObjects([nutritionInfo, ingrfoodItemNutrition]);
     });
     vm.recipe.nutrition = nutritionInfo;

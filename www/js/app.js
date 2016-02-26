@@ -69,6 +69,7 @@ angular.module('RecipesWithYou', ['ionic', 'ionic-datepicker', 'ngResource', 'Re
 
   .state('app.recipes', {
     url: '/recipes',
+    cache: false,
     views: {
       'menuContent': {
         templateUrl: 'templates/recipes.html',

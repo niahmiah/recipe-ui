@@ -1,8 +1,10 @@
 function multiplyObject(object, value){
+  console.log('multiplyObject:', value, object);
   if(value && value === 1){
     return object;
   }
   var merger = function (a, b) {
+    console.log('multiply merge compare', a, b);
     if (_.isObject(b)) {
       return _.merge({}, a, b, merger);
     } else if (_.isNumber(b)) {
@@ -20,8 +22,9 @@ function multiplyObject(object, value){
 function addObjects(objectsArray){
   // Custom merge function ORs together non-object values, recursively
   // calls itself on Objects.
+  console.log('addObjects:', objectsArray);
   var merger = function (a, b) {
-    // console.log('merger comparing:', a, b);
+    console.log('add merge compare', a, b);
     if (_.isObject(a)) {
       return _.merge({}, a, b, merger);
     } else if (_.isNumber(a) && _.isNumber(b)) {
