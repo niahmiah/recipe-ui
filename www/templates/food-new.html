@@ -1,7 +1,7 @@
 <ion-view>
   <ion-nav-title>{{vm.food.name}}</ion-nav-title>
   <ion-nav-buttons side="right">
-    <button class="button button-icon button-clear button-positive" ng-click="vm.showActions.food()" ng-if="vm.authenticated && !vm.food._id">
+    <button class="button button-icon button-clear button-positive" ng-click="vm.saveNewFood()" ng-if="vm.authenticated && !vm.food._id">
       Save
     </button>
    </ion-nav-buttons>
