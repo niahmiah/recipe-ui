@@ -72,7 +72,7 @@
             <div class="list">
               <label class="item item-input">
                 <span class="input-label">Name</span>
-                <input type="text" ng-model="vm.recipe.name" placeholder="recipe name" ng-model-options="{ updateOn: 'default', debounce: {'defaul/>
+                <input type="text" ng-model="vm.recipe.name" placeholder="recipe name" ng-model-options="{ updateOn: 'default', debounce: {'default': 500} }" ng-change="vm.recordChange()"/>
               </label>
               <label class="item item-input">
                 <span class="input-label">Servings</span>
