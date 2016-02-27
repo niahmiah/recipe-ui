@@ -72,19 +72,19 @@
             <div class="list">
               <label class="item item-input">
                 <span class="input-label">Name</span>
-                <input type="text" ng-model="vm.recipe.name" placeholder="recipe name" ng-model-options="{ updateOn: 'default', debounce: {'default': 500} }" ng-change="vm.recipe.$save()"/>
+                <input type="text" ng-model="vm.recipe.name" placeholder="recipe name" ng-model-options="{ updateOn: 'default', debounce: {'defaul/>
               </label>
               <label class="item item-input">
                 <span class="input-label">Servings</span>
-                <input type="number" ng-model="vm.recipe.servings" placeholder="# of servings" ng-model-options="{ updateOn: 'default', debounce: {'default': 500} }" ng-change="vm.recipe.$save()"/>
+                <input type="number" ng-model="vm.recipe.servings" placeholder="# of servings" ng-model-options="{ updateOn: 'default', debounce: {'default': 500} }" ng-change="vm.recordChange()"/>
               </label>
               <label class="item item-input">
                 <span class="input-label">Prep Time</span>
-                <input type="number" ng-model="vm.recipe.time.prep" min="0" max="999" placeholder="# of minutes" ng-model-options="{ updateOn: 'default', debounce: {'default': 500} }" ng-change="vm.recipe.$save()"/>
+                <input type="number" ng-model="vm.recipe.time.prep" min="0" max="999" placeholder="# of minutes" ng-model-options="{ updateOn: 'default', debounce: {'default': 500} }" ng-change="vm.recordChange()"/>
               </label>
               <label class="item item-input">
                 <span class="input-label">Cook Time</span>
-                <input type="number" ng-model="vm.recipe.time.cook" min="0" max="999" placeholder="# of minutes" ng-model-options="{ updateOn: 'default', debounce: {'default': 500} }" ng-change="vm.recipe.$save()"/>
+                <input type="number" ng-model="vm.recipe.time.cook" min="0" max="999" placeholder="# of minutes" ng-model-options="{ updateOn: 'default', debounce: {'default': 500} }" ng-change="vm.recordChange()"/>
               </label>
             </div>
 
@@ -123,7 +123,7 @@
               Instructions
             </label>
             <label class="item">
-              <textarea ng-model="vm.recipe.instructions" placeholder="Add instructions here" ng-model-options="{ updateOn: 'default', debounce: {'default': 500} }" ng-change="vm.recipe.$save()"></textarea>
+              <textarea ng-model="vm.recipe.instructions" placeholder="Add instructions here" ng-model-options="{ updateOn: 'default', debounce: {'default': 500} }" ng-change="vm.recordChange()"></textarea>
             </label>
 
         </div>
