@@ -16,7 +16,7 @@
   .list {
     max-width: 470px;
   }
-  .card .list {
+  .card .list, .modal-content, .modal-content .list, .modal-content .list .item {
     max-width: 100%;
   }
 

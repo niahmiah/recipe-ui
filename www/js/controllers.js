@@ -280,6 +280,8 @@ angular.module('RecipesWithYou.Controllers', [])
   // Execute action on hide modal
   $scope.$on('modal.hidden', function() {
     vm.newIngredient = null;
+    vm.query.search = '';
+    vm.query.filter = '';
   });
 
   vm.recordChange = function() {
