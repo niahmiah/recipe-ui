@@ -1,11 +1,15 @@
 angular.module('RecipesWithYou.Factories', ['ngResource', 'RecipesWithYou.Config'])
 
   .factory('Recipe', function($resource, $serverAddress) {
-    return $resource($serverAddress + '/recipe/:_id')
+    return $resource($serverAddress + '/recipe/:_id', null, {
+      update: {method:'PUT'}
+    })
   })
 
   .factory('Food', function($resource, $serverAddress) {
-    return $resource($serverAddress + '/foodItem/:_id')
+    return $resource($serverAddress + '/food/:_id', null, {
+      update: {method:'PUT'}
+    })
   })
 
   .factory('User', function($resource, $serverAddress) {

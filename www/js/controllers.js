@@ -141,16 +141,8 @@ angular.module('RecipesWithYou.Controllers', [])
   getMany(vm, Recipe, 'recipes', Auth, $scope, $log);
 
   vm.createNew = function() {
-    vm.recipe = new Recipe({
-      author: vm.profile.id,
-      name: 'New Recipe'
-    });
-
-    vm.recipe.$save(function(recipe) {
-      $log.debug('Saved recipe', recipe);
-      $ionicHistory.clearCache().then(function() {
-        $window.location.href = '#/app/recipe/' + recipe._id;
-      });
+    $ionicHistory.clearCache().then(function() {
+      $window.location.href = '#/app/recipe/new';
     });
   }
 })
@@ -160,16 +152,8 @@ angular.module('RecipesWithYou.Controllers', [])
   getMany(vm, Food, 'foods', Auth, $scope, $log);
 
   vm.createNew = function() {
-    vm.food = new Food({
-      source: vm.profile.id,
-      name: 'New Item'
-    });
-
-    vm.food.$save(function(food) {
-      $log.debug('Saved food', food);
-      $ionicHistory.clearCache().then(function() {
-        $window.location.href = '#/app/food/' + food._id;
-      });
+    $ionicHistory.clearCache().then(function() {
+      $window.location.href = '#/app/food/new';
     });
   }
 })
@@ -180,6 +164,14 @@ angular.module('RecipesWithYou.Controllers', [])
   vm.foodItems = [];
   vm.newIngredient = null;
   vm.mealplanning = {};
+  vm.saveNewRecipe = function() {
+    vm.recipe.$save(function(data){
+      $log.debug('Saved', data);
+      if(data._id){
+        $window.location.href = '#/app/recipe/'+data._id;
+      }
+    });
+  }
   vm.postLoad = function() {
     vm.recipe.mealTypes.forEach(function(type) {
       if(type !== 'breakfast' && type !== 'lunch' && type !== 'dinner' && type !== 'snack') {
@@ -200,7 +192,7 @@ angular.module('RecipesWithYou.Controllers', [])
     }
     vm.recipe.mealTypes = mealtypes;
     $log.debug('toggleMealPlanning done', vm.recipe);
-    if(vm.recipe.name) vm.recipe.$save();
+    if(vm.recipe.id) Recipe.update({_id: vm.recipe.id}, vm.recipe);
   }
 
   $scope.$watch('vm.mealtype', function() {
@@ -222,8 +214,7 @@ angular.module('RecipesWithYou.Controllers', [])
     //Move the item in the array
     $log.debug('remove ingredient', fromIndex);
     vm.recipe.ingredients.splice(fromIndex, 1);
-    vm.recalculateNutrition();
-    vm.recipe.$save();
+    if(vm.recipe.id) Recipe.update({_id: vm.recipe.id}, vm.recipe);
   };
 
   vm.selectIngredient = function(food) {
@@ -252,8 +243,7 @@ angular.module('RecipesWithYou.Controllers', [])
     vm.foodItems = [];
     vm.hideAddIngredient();
     $log.debug('Recipe ingredients', vm.recipe.ingredients);
-    vm.recalculateNutrition();
-    vm.recipe.$save();
+    if(vm.recipe.id) Recipe.update({_id: vm.recipe.id}, vm.recipe);
   }
 
   vm.changeFraction = function() {
@@ -292,60 +282,23 @@ angular.module('RecipesWithYou.Controllers', [])
     vm.newIngredient = null;
   });
 
-  vm.recalculateNutrition = function(){
-    var nutritionInfo = {};
-    vm.recipe.ingredients.forEach(function(ingr){
-      // multiply nutrition info based on measure.js conversion
-      var servingMultiplier = 1;
-
-      var ingrMsrString = getMeasureString(ingr.foodItem) || '';
-      var ingrSrv = 0;
-      var ingrSrvType = 'mass';
-      if(['oz', 'lb'].indexOf(ingr.foodItem.unit) > -1){
-        ingrSrv = measure(ingrMsrString).ounces();
-      }else{
-        ingrSrvType = 'volume';
-        ingrSrv = measure(ingrMsrString).milliliters();
-      }
-
-      var recipeIngrMsrString = getMeasureString(ingr) || '';
-      var recipeInrgSrv = 0;
-      var recipeIngrSrvType = 'mass';
-      if(['oz', 'lb'].indexOf(ingr.unit) > -1){
-        recipeInrgSrv = measure(recipeIngrMsrString).ounces();
-      }else{
-        recipeIngrSrvType = 'volume';
-        recipeInrgSrv = measure(recipeIngrMsrString).milliliters();
-      }
-
-
-      $log.debug('measure:', ingr.foodItem.name, ingrMsrString, recipeIngrMsrString);
-      $log.debug('vals in millis', ingrSrv, recipeInrgSrv);
-      if(ingrSrvType !== recipeIngrSrvType){
-        alert('Invalid measurement conversion for: ' + ingr.foodItem.name + '\n\nNutritional information will not be correct for this recipe.\n\n' + ingrSrvType + '!==' + recipeIngrSrvType);
-        servingMultiplier = 0;
-      }else{
-        servingMultiplier = (recipeInrgSrv / ingrSrv) / vm.recipe.servings;
-      }
-
-      $log.debug('multiplier', servingMultiplier);
-      $log.debug('before', ingr.foodItem.nutrition);
-
-      var ingrfoodItemNutrition = multiplyObject(ingr.foodItem.nutrition, servingMultiplier);
-      $log.debug('after', ingr.foodItem.nutrition);
-      //divide by servings #
-      $log.debug('Adding values from', ingr.foodItem.nutrition);
-      nutritionInfo = addObjects([nutritionInfo, ingrfoodItemNutrition]);
-    });
-    vm.recipe.nutrition = nutritionInfo;
-    $log.debug('updated nutrition info', vm.recipe.nutrition);
-  };
+  vm.recordChange = function() {
+    if(vm.recipe.id) Recipe.update({_id: vm.recipe.id}, vm.recipe);
+  }
 
 })
 
 .controller('Food.Controller', function(Food, Auth, $stateParams, $log, $ionicActionSheet, $ionicPopup, $ionicHistory, $window) {
   var vm = this;
   vm.food = new Food({});
+  vm.saveNewFood = function() {
+    vm.food.$save(function(data){
+      $log.debug('Saved', data);
+      if(data._id){
+        $window.location.href = '#/app/food/'+data._id;
+      }
+    });
+  }
   getSingle(vm, Food, 'food', Auth, $stateParams, $log, $ionicActionSheet, $ionicPopup, $ionicHistory, $window);
 
   vm.changeFraction = function() {
@@ -356,7 +309,11 @@ angular.module('RecipesWithYou.Controllers', [])
     } else {
       vm.food.fraction.denominator = 2;
     }
-    vm.food.$save();
+    vm.recordChange();
+  }
+
+  vm.recordChange = function() {
+    if(vm.food.id) Food.update({_id: vm.food.id}, vm.food);
   }
 });
 
@@ -381,20 +338,13 @@ function getSingle(vm, Model, modelName, Auth, $stateParams, $log, $ionicActionS
     }
     $log.debug('Set edit mode to ' + vm.editMode);
   }
-
-  Model.get({ _id: $stateParams.id }, function(data) {
-    vm[modelName] = data;
-    $log.debug(modelName, vm[modelName]);
-    if(vm[modelName].name === 'New Item' ||
-      vm[modelName].name === 'New Recipe' &&
-      ((vm.food && vm.food.source && vm.food.source.id === vm.profile.id) ||
-      (vm.recipe && vm.recipe.author && vm.recipe.author.id === vm.profile.id))) {
-        $log.debug('Set edit mode to true');
-      vm.editMode = true;
-      vm.editButtonText = 'View';
-    }
-    if (vm.postLoad) vm.postLoad();
-  });
+  if ($stateParams.id) {
+    Model.get({ _id: $stateParams.id }, function(data) {
+      vm[modelName] = data;
+      $log.debug(modelName, vm[modelName]);
+      if (vm.postLoad) vm.postLoad();
+    });
+  }
 
   vm.showActions = {};
   vm.showActions[modelName] = function() {

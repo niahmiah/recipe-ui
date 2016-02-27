@@ -56,6 +56,17 @@ angular.module('RecipesWithYou', ['ionic', 'ionic-datepicker', 'ngResource', 'Re
     }
   })
 
+  .state('app.food-new', {
+    url: '/food/new',
+    views: {
+      'menuContent': {
+        templateUrl: 'templates/food-new.html',
+        controller: 'Food.Controller',
+        controllerAs: 'vm'
+      }
+    }
+  })
+
   .state('app.food', {
     url: '/food/:id',
     views: {
@@ -74,6 +85,18 @@ angular.module('RecipesWithYou', ['ionic', 'ionic-datepicker', 'ngResource', 'Re
       'menuContent': {
         templateUrl: 'templates/recipes.html',
         controller: 'Recipes.Controller',
+        controllerAs: 'vm'
+      }
+    }
+  })
+
+  .state('app.recipe-new', {
+    url: '/recipe/new',
+    cache: false,
+    views: {
+      'menuContent': {
+        templateUrl: 'templates/recipe-new.html',
+        controller: 'Recipe.Controller',
         controllerAs: 'vm'
       }
     }
