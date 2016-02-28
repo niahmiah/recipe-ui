@@ -13,8 +13,8 @@
         <div class="card" ng-if="!vm.editMode">
 
           <div class="item item-body">
-            <img ng-if="vm.recipe.picture" class="full-image" ng-src="{{vm.recipe.picture}}">
-            <img ng-if="!vm.recipe.picture" class="full-image" src="img/plates.jpg"/>
+            <img ng-if="vm.recipe.servings && vm.recipe.picture" class="full-image" ng-src="{{vm.recipe.picture}}">
+            <img ng-if="vm.recipe.servings && !vm.recipe.picture" class="full-image" src="img/plates.jpg"/>
             <!-- <p>{{vm.recipe.name}}</p> -->
             <p>
               Serves: {{vm.recipe.servings}}<br>
