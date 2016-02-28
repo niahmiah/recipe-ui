@@ -13,10 +13,17 @@
       <ion-content has-header="true" overflow-scroll="true">
         <div class="card">
             <div class="list">
+              <div class="item item-body" ng-if="vm.recipe.pictureData">
+                <img ng-src="{{vm.recipe.pictureData}}" class="full-image">
+              </div>
               <label class="item item-input">
                 <span class="input-label">Name</span>
                 <input type="text" ng-model="vm.recipe.name" placeholder="recipe name" ng-model-options="{ updateOn: 'default', debounce: {'default': 500} }" ng-change="vm.recordChange()"/>
               </label>
+              <div class="item item-input">
+                <span class="input-label">Photo</span>
+                  <input type="file" fileread="vm.recipe.pictureData" class="file-upload" accept="image/jpeg"/>
+              </div>
               <label class="item item-input">
                 <span class="input-label">Servings</span>
                 <input type="number" ng-model="vm.recipe.servings" placeholder="# of servings" ng-model-options="{ updateOn: 'default', debounce: {'default': 500} }" ng-change="vm.recordChange()"/>

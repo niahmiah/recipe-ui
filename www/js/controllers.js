@@ -158,7 +158,7 @@ angular.module('RecipesWithYou.Controllers', [])
   }
 })
 
-.controller('Recipe.Controller', function(Recipe, Food, Auth, $stateParams, $log, $ionicActionSheet, $ionicModal, $ionicPopup, $ionicHistory, $scope, $window) {
+.controller('Recipe.Controller', function(Recipe, Food, Auth, $stateParams, $log, $ionicActionSheet, $ionicModal, $ionicPopup, $ionicHistory, $scope, $window, $timeout) {
   var vm = this;
   vm.recipe = new Recipe({});
   vm.foodItems = [];
@@ -286,6 +286,10 @@ angular.module('RecipesWithYou.Controllers', [])
 
   vm.recordChange = function() {
     if(vm.recipe.id) Recipe.update({_id: vm.recipe.id}, vm.recipe);
+  }
+
+  vm.recordFileChange = function() {
+    vm.recipe.filename = angular.element('#file').value;
   }
 
 })
