@@ -21,8 +21,8 @@
   <ion-content ng-class="{'has-subheader': vm.showSearch}" class="has-footer">
     <ion-list show-delete="vm.shouldShowDelete" show-reorder="vm.shouldShowReorder" can-swipe="vm.listCanSwipe">
       <ion-item class="item item-thumbnail-left" collection-repeat="recipe in vm.recipes" href="#/app/recipe/{{recipe._id}}">
-        <img ng-if="recipe.picture" ng-src="{{recipe.picture}}">
-        <img ng-if="!recipe.picture" src="img/plates.jpg"/>
+        <img ng-if="recipe.thumb" ng-src="{{recipe.thumb}}">
+        <img ng-if="!recipe.thumb" src="img/plates.jpg"/>
         <h2>{{recipe.name}}</h2>
         <p>{{recipe.author.firstName}} {{recipe.author.lastName}}</p>
         <p>{{recipe.nutrition.calories.total | number: 0}} Cal, {{recipe.nutrition.carbohydrates.total - recipe.nutrition.carbohydrates.fiber | number: 0}} Net Carb, {{recipe.nutrition.protein | number: 0}}g Protein</p>

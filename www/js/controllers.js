@@ -199,6 +199,10 @@ angular.module('RecipesWithYou.Controllers', [])
     vm.toggleMealPlanning();
   })
 
+  $scope.$watch('vm.recipe.pictureData', function() {
+    if(vm.recipe.id) Recipe.update({_id: vm.recipe.id}, vm.recipe);
+  });
+
   getSingle(vm, Recipe, 'recipe', Auth, $stateParams, $log, $ionicActionSheet, $ionicPopup, $ionicHistory, $window);
   getMany(vm, Food, 'foodItems', Auth, $scope, $log);
   vm.canEdit = false;
